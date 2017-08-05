@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">TrackMyBullion</string>
+    <string name="gold">Gold</string>
+    <string name="silver">Silver</string>
 </resources>
