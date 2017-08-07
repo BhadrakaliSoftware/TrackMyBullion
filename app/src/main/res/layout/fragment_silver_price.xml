@@ -5,4 +5,11 @@
     android:layout_height="match_parent"
     android:background="@color/silver">
 
+    <RelativeLayout
+        android:id="@+id/fragment_silve_price_rl_graph_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </RelativeLayout>
+
 </LinearLayout>

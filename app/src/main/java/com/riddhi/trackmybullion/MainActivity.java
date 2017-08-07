@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         pushFragment(new SilverFragment());
     }
 
-    private void showGoldPrices() {
+        private void showGoldPrices() {
 
         //Action  to show gold prices fragment to main activity
         pushFragment(new GoldFragment());
