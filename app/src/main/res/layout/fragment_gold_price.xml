@@ -8,6 +8,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/fragment_gold_price_linechart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="40dp"/>
+
     </RelativeLayout>
 
 </LinearLayout>
