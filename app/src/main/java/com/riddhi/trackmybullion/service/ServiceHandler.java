@@ -31,6 +31,7 @@ public class ServiceHandler {
 
         Request request = new Request.Builder()
                 .url(httpBuilder.build())
+                .tag(url)
                 .build();
 
         client.newCall(request)

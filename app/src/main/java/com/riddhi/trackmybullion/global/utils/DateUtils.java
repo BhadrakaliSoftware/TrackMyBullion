@@ -12,10 +12,21 @@ import java.util.Date;
  */
 
 public class DateUtils {
+
+    public final static String DD_MM_YYYY = "dd/MM/yyyy";
+    final static String MM_DD_YYYY = "MM/dd/yyyy";
+
     public static Timestamp getTimeStamp(String dateString)  throws InvalidParameterException{
 
         Date date = getDate(dateString,"yyyy-MM-dd");
         return new Timestamp(date.getTime());
+    }
+
+    public static String getDateString(long seconds, String format) {
+
+        DateFormat dateFormat = DateFormat.getDateInstance();
+        Date date = new Date(seconds);
+        return dateFormat.format(date);
     }
 
     private static Date getDate(String dateString, String format) {
@@ -28,5 +39,11 @@ public class DateUtils {
             e.printStackTrace();
         }
         return date;
+    }
+
+    public static String getDateString(Date date, String format) {
+
+        DateFormat dateFormat = new SimpleDateFormat(format);
+        return dateFormat.format(date);
     }
 }

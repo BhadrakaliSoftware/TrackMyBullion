@@ -1,19 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:id="@+id/fragment_gold_price_rl_graph_container"
+<ScrollView android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/fragment_gold_price_linechart"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="40dp"/>
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dp">
 
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/fragment_gold_price_tv_oneday"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:textColor="@drawable/fragment_gold_price_tv_history_range_text"
+                android:background="@drawable/fragment_gold_price_tv_history_range"
+                android:padding="2dp"
+                android:text="@string/oneDay"
+                android:textAlignment="center" />
 
-</LinearLayout>
+            <TextView
+                android:id="@+id/fragment_gold_price_tv_fivedays"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:textColor="@drawable/fragment_gold_price_tv_history_range_text"
+                android:background="@drawable/fragment_gold_price_tv_history_range"
+                android:padding="2dp"
+                android:text="@string/fiveDays"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/fragment_gold_price_tv_onemonth"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:textColor="@drawable/fragment_gold_price_tv_history_range_text"
+                android:background="@drawable/fragment_gold_price_tv_history_range"
+                android:padding="2dp"
+                android:text="@string/oneMonth"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/fragment_gold_price_tv_sixmonth"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:textColor="@drawable/fragment_gold_price_tv_history_range_text"
+                android:background="@drawable/fragment_gold_price_tv_history_range"
+                android:padding="2dp"
+                android:text="@string/sixMonth"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/fragment_gold_price_tv_oneyear"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:textColor="@drawable/fragment_gold_price_tv_history_range_text"
+                android:background="@drawable/fragment_gold_price_tv_history_range"
+                android:padding="2dp"
+                android:text="@string/oneYear"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/fragment_gold_price_tv_fiveyear"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:textColor="@drawable/fragment_gold_price_tv_history_range_text"
+                android:background="@drawable/fragment_gold_price_tv_history_range"
+                android:padding="2dp"
+                android:text="@string/fiveYear"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/fragment_gold_price_tv_tenyear"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:textColor="@drawable/fragment_gold_price_tv_history_range_text"
+                android:background="@drawable/fragment_gold_price_tv_history_range"
+                android:padding="2dp"
+                android:text="@string/tenYears"
+                android:textAlignment="center" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/fragment_gold_price_button_currency_rate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/current_currency"
+            android:visibility="gone" />
+
+        <RelativeLayout
+            android:id="@+id/fragment_gold_price_rl_graph_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/fragment_gold_price_linechart"
+                android:layout_width="match_parent"
+                android:layout_height="320dp" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/fragment_gold_price_tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/fragment_gold_price_tv_last_updated"
+                    android:layout_width="0dp"
+                    android:layout_margin="8dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/fragment_gold_price_tv_detail"
+                android:layout_width="match_parent"
+                android:padding="8dp"
+                android:textSize="12sp"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>
+

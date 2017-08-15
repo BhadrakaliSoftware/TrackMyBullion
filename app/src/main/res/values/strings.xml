@@ -8,4 +8,8 @@
     <string name="sixMonth">6 M</string>
     <string name="oneYear">1 Y</string>
     <string name="fiveYear">5 Y</string>
+    <string name="oneDay">24 h</string>
+    <string name="tenYears">10 Y</string>
+    <string name="lastupdatedat">Last Upated At :</string>
+    <string name="current_currency">Select Currency</string>
 </resources>

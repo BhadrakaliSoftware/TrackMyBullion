@@ -23,6 +23,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
+        initData();
+    }
+
+    private void initData() {
+
+        //Show default prices
+        showGoldPrices();
     }
 
     private void init() {
