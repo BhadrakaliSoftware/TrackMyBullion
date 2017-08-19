@@ -1,8 +1,10 @@
 package com.riddhi.trackmybullion;
 
 import android.app.ProgressDialog;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.res.ResourcesCompat;
 import android.util.Log;
@@ -24,13 +26,11 @@ import com.riddhi.trackmybullion.global.Constants;
 import com.riddhi.trackmybullion.global.graph.AxisValueFormatter;
 import com.riddhi.trackmybullion.global.graph.CurrencyValueFormatter;
 import com.riddhi.trackmybullion.global.graph.DayAxisValueFormatter;
-import com.riddhi.trackmybullion.global.graph.PriceMarkerView;
 import com.riddhi.trackmybullion.global.graph.ValueFormatter;
 import com.riddhi.trackmybullion.global.utils.DateUtils;
 import com.riddhi.trackmybullion.models.Currency;
 import com.riddhi.trackmybullion.models.FinancialData;
 import com.riddhi.trackmybullion.service.ServiceHandler;
-
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -51,6 +51,7 @@ import okhttp3.Response;
  * Created by riddhi on 8/5/2017.
  */
 
+@RequiresApi(api = Build.VERSION_CODES.M)
 public class GoldFragment extends Fragment implements Callback, View.OnClickListener {
 
     @BindView(R.id.fragment_gold_price_linechart)
@@ -89,7 +90,9 @@ public class GoldFragment extends Fragment implements Callback, View.OnClickList
     @BindView(R.id.fragment_gold_price_tv_last_updated)
     TextView tvLastUpated;
 
-    private enum HistoryRange {DAY, WEEK, MONTH, SIX_MONTH, YEAR, FIVE_YEAR, TEN_YEAR};
+    private enum HistoryRange {DAY, WEEK, MONTH, SIX_MONTH, YEAR, FIVE_YEAR, TEN_YEAR}
+
+    ;
     Currency currency;
     HistoryRange historyRange = HistoryRange.WEEK;
 
@@ -115,6 +118,7 @@ public class GoldFragment extends Fragment implements Callback, View.OnClickList
 
 
     ProgressDialog progressDialog;
+
     private void init() {
 
         fetchGoldPriceWithHistoryRange(HistoryRange.WEEK);
@@ -135,7 +139,7 @@ public class GoldFragment extends Fragment implements Callback, View.OnClickList
 
         String startDate = getDate(range);
         try {
-            String[] queryParameters = {"start_date="+startDate};
+            String[] queryParameters = {"start_date=" + startDate};
             ServiceHandler.buildRequest(Constants.url_gold_prices_lsx,
                     Constants.REQUEST_TYPE.GET,
                     this, queryParameters);
@@ -177,14 +181,15 @@ public class GoldFragment extends Fragment implements Callback, View.OnClickList
         Gson gson = new Gson();
         try {
             String jsonString = response.body().string();
-            Type currencyRateType = new TypeToken<Currency>() {}.getType();
+            Type currencyRateType = new TypeToken<Currency>() {
+            }.getType();
             Currency currency = gson.fromJson(jsonString, currencyRateType);
-            Log.d("CURRENCY",String.valueOf(currency));
+            Log.d("CURRENCY", String.valueOf(currency));
 
             this.currency = currency;
-        }catch (NullPointerException e) {
+        } catch (NullPointerException e) {
             e.printStackTrace();
-        }catch (Exception  ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
@@ -204,7 +209,7 @@ public class GoldFragment extends Fragment implements Callback, View.OnClickList
                 public void run() {
                     tvDetails.setText(financialData.getDataset().getDescription());
                     tvTitle.setText(financialData.getDataset().getDatasetCode());
-                    tvLastUpated.setText(getString(R.string.lastupdatedat)+
+                    tvLastUpated.setText(getString(R.string.lastupdatedat) +
                             financialData.getDataset().getNewestAvailableDate());
                 }
             });
@@ -233,7 +238,7 @@ public class GoldFragment extends Fragment implements Callback, View.OnClickList
             dataSet.setLineWidth(3.0f);
             dataSet.setDrawFilled(true);
             dataSet.setFillColor(this.colorFromResource(R.color.vegasGold));
-            dataSet.setValueFormatter( new ValueFormatter());
+            dataSet.setValueFormatter(new ValueFormatter());
 
             //LineData
             LineData lineData = new LineData(dataSet);
@@ -242,9 +247,9 @@ public class GoldFragment extends Fragment implements Callback, View.OnClickList
             goldPriceLineChart.setData(lineData);
 
             //Format Axis data
-            goldPriceLineChart.getXAxis().setValueFormatter( new DayAxisValueFormatter());
+            goldPriceLineChart.getXAxis().setValueFormatter(new DayAxisValueFormatter());
             goldPriceLineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-            goldPriceLineChart.getAxisRight().setValueFormatter( new AxisValueFormatter());
+            goldPriceLineChart.getAxisRight().setValueFormatter(new AxisValueFormatter());
             goldPriceLineChart.getAxisLeft().setValueFormatter(new CurrencyValueFormatter("USD"));
             goldPriceLineChart.getXAxis().setDrawGridLines(false);
 
@@ -258,6 +263,7 @@ public class GoldFragment extends Fragment implements Callback, View.OnClickList
                     description.setText(financialData.getDataset().getName());
                     goldPriceLineChart.setDescription(description);
 
+                    //Color resources
                     int color = colorFromResource(R.color.white);
                     goldPriceLineChart.setBackgroundColor(color);
                     goldPriceLineChart.invalidate();
@@ -271,7 +277,7 @@ public class GoldFragment extends Fragment implements Callback, View.OnClickList
     }
 
     public int colorFromResource(int colorResource) {
-        return ResourcesCompat.getColor(getResources(),colorResource,null);
+        return ResourcesCompat.getColor(getResources(), colorResource, null);
     }
 
     @Override
@@ -319,17 +325,18 @@ public class GoldFragment extends Fragment implements Callback, View.OnClickList
 
     private void fetchCurrencyRates() {
 
-        if(progressDialog != null) {
+        if (progressDialog != null) {
             progressDialog.show();
         }
         String[] queryParameters = {"base=USD"};
-        ServiceHandler.buildRequest(Constants.url_currency_rates, Constants.REQUEST_TYPE.GET,this,queryParameters);
+        ServiceHandler.buildRequest(Constants.url_currency_rates, Constants.REQUEST_TYPE.GET, this, queryParameters);
     }
+
     private Float currencyPrice(String USD, String currencyTo) {
 
         Float priceInUSD = Float.parseFloat(USD);
         Float priceInCurrency = priceInUSD;
-        if (this.currency != null && currencyTo.length() > 0 ) {
+        if (this.currency != null && currencyTo.length() > 0) {
             Float currencyRate = Float.valueOf(String.valueOf(this.currency.getRates().getINR()));
             priceInCurrency = (currencyRate) * priceInUSD;
         }
@@ -350,7 +357,7 @@ public class GoldFragment extends Fragment implements Callback, View.OnClickList
                 calendar.add(Calendar.MONTH, -1);
                 break;
             case SIX_MONTH:
-                calendar.add(Calendar.MONTH,-6);
+                calendar.add(Calendar.MONTH, -6);
                 break;
             case YEAR:
                 calendar.add(Calendar.YEAR, -1);
@@ -363,7 +370,7 @@ public class GoldFragment extends Fragment implements Callback, View.OnClickList
                 break;
         }
         Date currentDate = calendar.getTime();
-        return DateUtils.getDateString(currentDate,DateUtils.DD_MM_YYYY);
+        return DateUtils.getDateString(currentDate, DateUtils.DD_MM_YYYY);
     }
 
 }

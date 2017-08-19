@@ -4,7 +4,7 @@ import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
 import java.sql.Date;
-import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 
 /**
  * Created by riddhi on 8/13/2017.
@@ -17,7 +17,7 @@ public class DayAxisValueFormatter implements IAxisValueFormatter {
 
         long timeInSeconds = (long) value;
         Date date = new Date(timeInSeconds);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        DateFormat dateFormat = DateFormat.getDateInstance();
         return dateFormat.format(date);
     }
 }

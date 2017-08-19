@@ -12,4 +12,7 @@
     <string name="tenYears">10 Y</string>
     <string name="lastupdatedat">Last Upated At :</string>
     <string name="current_currency">Select Currency</string>
+    <string name="action_currency_conversion">Convert Currency</string>
+    <string name="INR">INR</string>
+    <string name="sampleRupee"> 65.6 \n Indian Rupees</string>>
 </resources>

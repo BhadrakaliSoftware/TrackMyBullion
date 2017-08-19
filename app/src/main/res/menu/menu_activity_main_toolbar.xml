@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!--Show currency conversion action button if possible-->
+    <item android:id="@+id/action_currency_conversion"
+        android:title="@string/action_currency_conversion"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_currency_exchange_gold_bg_white">
+    </item>
+
+</menu>
