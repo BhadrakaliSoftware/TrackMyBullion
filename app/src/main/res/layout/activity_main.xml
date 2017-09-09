@@ -1,27 +1,150 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:fitsSystemWindows="true">
 
-
-    <FrameLayout
-        android:id="@+id/rootLayout"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="55dp"
-        android:layout_alignParentTop="true">
-    </FrameLayout>
+        android:background="@color/white"
+        android:orientation="vertical">
 
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="0dp"
-        android:layout_marginStart="0dp"
-        android:layout_alignParentBottom="true"
-        app:menu="@menu/navigation" >
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/primary"
+            android:scrollbars="none">
 
-    </android.support.design.widget.BottomNavigationView>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_margin="4dp"
+                android:orientation="horizontal">
 
-</RelativeLayout>
+                <TextView
+                    android:id="@+id/activity_main_tv_today"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_corner"
+                    android:padding="8dp"
+                    android:text="@string/oneDay"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/activity_main_tv_week"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_corner"
+                    android:padding="8dp"
+                    android:text="@string/fiveDays"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/activity_main_tv_month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_corner"
+                    android:padding="8dp"
+                    android:text="@string/oneMonth"
+                    android:textAlignment="center" />
+
+
+                <TextView
+                    android:id="@+id/activity_main_tv_sixMonths"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_corner"
+                    android:padding="8dp"
+                    android:text="@string/sixMonth"
+                    android:textAlignment="center" />
+
+
+                <TextView
+                    android:id="@+id/activity_main_tv_year"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_corner"
+                    android:padding="8dp"
+                    android:text="@string/oneYear"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/activity_main_tv_fiveYears"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_corner"
+                    android:padding="8dp"
+                    android:text="@string/fiveYear"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/activity_main_tv_tenYear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_corner"
+                    android:padding="8dp"
+                    android:text="@string/tenYears"
+                    android:textAlignment="center" />
+
+            </LinearLayout>
+
+        </HorizontalScrollView>
+
+        <FrameLayout
+            android:id="@+id/rootLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/activity_main_lineChart"
+                android:layout_width="match_parent"
+                android:layout_height="360dp"
+                android:layout_gravity="center"/>
+
+        </FrameLayout>
+
+        <com.google.android.gms.ads.AdView
+            xmlns:ads="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/adView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            ads:adSize="BANNER"
+            ads:adUnitId="ca-app-pub-2958563283041180/1129861182">
+        </com.google.android.gms.ads.AdView>
+
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>
+

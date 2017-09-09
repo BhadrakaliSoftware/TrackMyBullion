@@ -17,7 +17,7 @@ public class DayAxisValueFormatter implements IAxisValueFormatter {
 
         long timeInSeconds = (long) value;
         Date date = new Date(timeInSeconds);
-        DateFormat dateFormat = DateFormat.getDateInstance();
+        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT);
         return dateFormat.format(date);
     }
 }

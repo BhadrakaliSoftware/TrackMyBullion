@@ -1,39 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?attr/selectableItemBackground">
+    android:orientation="vertical"
+    android:clickable="true"
+    android:background="@color/white">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="INDIA"
+        android:textSize="20sp"
+        android:layout_marginLeft="8dp"
+        android:visibility="gone"
+        android:textStyle="bold"/>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@color/white">
+        android:layout_height="50dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tv_Code"
+        <RelativeLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:padding="8dp"
-            android:text="@string/INR"
-            android:textAlignment="center"
-            android:textColor="@color/primary_text"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_centerInParent="true"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/iv_Currency"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="8dp" />
+
+                <TextView
+                    android:id="@+id/tv_Code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:padding="8dp"
+                    android:text="@string/INR"
+                    android:textColor="@color/primary_text"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/tv_Code_Value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:padding="8dp"
             android:text="@string/sampleRupee"
             android:textAlignment="center"
             android:textColor="@color/secondary_text"
-            android:textSize="14sp" />
+            android:textSize="18sp" />
 
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/primary_light"/>
 
 </LinearLayout>

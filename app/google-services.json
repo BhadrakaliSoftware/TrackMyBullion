@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "62423462926",
+    "firebase_url": "https://trackmybullion-c7b42.firebaseio.com",
+    "project_id": "trackmybullion-c7b42",
+    "storage_bucket": "trackmybullion-c7b42.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:62423462926:android:f1d58d47f86dcfdc",
+        "android_client_info": {
+          "package_name": "com.riddhi.trackmybullion"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "62423462926-1m9a46sf9dgi0hcdt112v2gn4iomprip.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7owHddAbGYb6oTiUChv3hO6hXNVAGmYM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

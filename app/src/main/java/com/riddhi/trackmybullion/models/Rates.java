@@ -3,7 +3,9 @@ package com.riddhi.trackmybullion.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Rates {
+import java.io.Serializable;
+
+public class Rates implements Serializable{
 
     @SerializedName("AUD")
     @Expose

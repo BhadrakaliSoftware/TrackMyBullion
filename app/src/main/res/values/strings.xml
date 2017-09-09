@@ -3,16 +3,18 @@
     <string name="gold">Gold</string>
     <string name="silver">Silver</string>
 
-    <string name="fiveDays">5 D</string>
-    <string name="oneMonth">1 M</string>
-    <string name="sixMonth">6 M</string>
-    <string name="oneYear">1 Y</string>
-    <string name="fiveYear">5 Y</string>
-    <string name="oneDay">24 h</string>
-    <string name="tenYears">10 Y</string>
+    <string name="fiveDays">Week</string>
+    <string name="oneMonth">Month</string>
+    <string name="sixMonth">6 Months</string>
+    <string name="oneYear">Year</string>
+    <string name="fiveYear">5 Years</string>
+    <string name="oneDay">Today</string>
+    <string name="tenYears">Decade</string>
     <string name="lastupdatedat">Last Upated At :</string>
     <string name="current_currency">Select Currency</string>
     <string name="action_currency_conversion">Convert Currency</string>
     <string name="INR">INR</string>
-    <string name="sampleRupee"> 65.6 \n Indian Rupees</string>>
+    <string name="sampleRupee"> 65.6 \n Indian Rupees</string>
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+
 </resources>

@@ -8,11 +8,16 @@ public class Constants {
 
     public static final int HTTP_OK = 200;
     public static final int REQUEST_CURRENCY_CONVERSION_ACTIVITY = 1;
+    public static final String SELECTED_CURRENCY = "selected_currency";
+    public static final String CURRENCIES = "currencies";
+    public static String DRAWABLE = "drawable";
+    public static String COUNTRIES = "countries";
 
     public enum REQUEST_TYPE {GET, POST}
     public enum RETURN_TYPE {JSON, XML}
 
     private static final String quandl_api_key = "3VmfA2dyxFsYCuVmcFsz";
+    public static enum HistoryRange {DAY, WEEK, MONTH, SIX_MONTH, YEAR, FIVE_YEAR, TEN_YEAR};
 
     /*
     * URLs : Urls for the service call
