@@ -6,10 +6,13 @@ import android.graphics.DashPathEffect;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.PopupMenu;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -47,11 +50,12 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity
-        implements View.OnClickListener, Callback {
+        implements View.OnClickListener, Callback, PopupMenu.OnMenuItemClickListener {
 
     private Currency currency;
     private ProgressDialog progressDialog;
     private String selectedCurrency = "USD";
+    private double scaleWeight = 10;
 
     Constants.HistoryRange historyRange = Constants.HistoryRange.WEEK;
 
@@ -78,6 +82,9 @@ public class MainActivity extends AppCompatActivity
 
     @BindView(R.id.activity_main_tv_tenYear)
     TextView tvTenYears;
+
+    @BindView(R.id.activity_main_button_show_investment)
+    Button buttonShowInvestment;
 
     private AdView mAdView;
 
@@ -108,6 +115,7 @@ public class MainActivity extends AppCompatActivity
         tvOneYear.setOnClickListener(this);
         tvFiveYears.setOnClickListener(this);
         tvTenYears.setOnClickListener(this);
+        buttonShowInvestment.setOnClickListener(this);
     }
 
     private void initData() {
@@ -141,8 +149,20 @@ public class MainActivity extends AppCompatActivity
             case R.id.action_currency_conversion:
                 showCountryCurrencies();
                 break;
+            case R.id.action_wechange_scaleight:
+                View menuItemView = findViewById(R.id.action_wechange_scaleight);
+                showPopup(menuItemView);
+                break;
         }
         return true;
+    }
+
+    public void showPopup(View v) {
+        PopupMenu popup = new PopupMenu(this, v);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.menu_activity_main_scales, popup.getMenu());
+        popup.setOnMenuItemClickListener(this);
+        popup.show();
     }
 
     private void showCountryCurrencies() {
@@ -164,16 +184,15 @@ public class MainActivity extends AppCompatActivity
     private void handleActivityResult(int requestCode, Intent data) {
 
         switch (requestCode) {
-             case Constants.REQUEST_CURRENCY_CONVERSION_ACTIVITY:
+            case Constants.REQUEST_CURRENCY_CONVERSION_ACTIVITY:
 
-                 //get the selected Currency
-                 String selectedCurrency = data.getStringExtra(Constants.SELECTED_CURRENCY);
-                 this.selectedCurrency = selectedCurrency;
-                 this.currency = (Currency) data.getExtras().get(Constants.CURRENCIES);
+                //get the selected Currency
+                String selectedCurrency = data.getStringExtra(Constants.SELECTED_CURRENCY);
+                this.selectedCurrency = selectedCurrency;
+                this.currency = (Currency) data.getExtras().get(Constants.CURRENCIES);
 
-                 //relaod the graph
-                 this.fetchGoldPriceWithHistoryRange(this.historyRange);
-
+                //relaod the graph
+                this.fetchGoldPriceWithHistoryRange(this.historyRange);
                 break;
         }
     }
@@ -212,9 +231,11 @@ public class MainActivity extends AppCompatActivity
             case R.id.activity_main_tv_tenYear:
                 this.historyRange = Constants.HistoryRange.TEN_YEAR;
                 break;
+            case R.id.activity_main_button_show_investment:
+                showInvestments();
+                return;
         }
         fetchGoldPriceWithHistoryRange(historyRange);
-
     }
 
     @Override
@@ -234,6 +255,11 @@ public class MainActivity extends AppCompatActivity
                     break;
             }
         }
+    }
+
+    private void showInvestments() {
+        Intent intent = new Intent(this, ActivityInvestments.class);
+        startActivityForResult(intent, Constants.REQUEST_INVESMENTS_ACTIVITY);
     }
 
     private void handleResponseForRequestGoldPrice(Response response) {
@@ -286,8 +312,8 @@ public class MainActivity extends AppCompatActivity
                 lineChart.getXAxis().setAxisLineColor(R.color.white);
                 lineChart.getAxisLeft().setAxisLineColor(R.color.white);
                 lineChart.getAxisRight().setValueFormatter(new AxisValueFormatter());
-                lineChart.getAxisLeft().setValueFormatter(new CurrencyValueFormatter("USD"));
-                lineChart.getAxisLeft().setDrawGridLines(false);
+                lineChart.getAxisLeft().setValueFormatter(new CurrencyValueFormatter(this.selectedCurrency.toUpperCase()));
+                lineChart.getAxisLeft() .setDrawGridLines(false);
                 lineChart.getAxisRight().setGridDashedLine(new DashPathEffect(new float[]{10.0f, 5.0f}, 1));
                 ;
                 lineChart.getAxisLeft().setDrawAxisLine(false);
@@ -310,7 +336,7 @@ public class MainActivity extends AppCompatActivity
                     }
                 });
                 //////////////////////////
-            }else  {
+            } else {
                 lineChart.getAxisLeft().setAxisMinimum(0);
                 lineChart.getAxisLeft().setAxisMaximum(100);
                 lineChart.invalidate();
@@ -342,10 +368,33 @@ public class MainActivity extends AppCompatActivity
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
-
             Float currencyRate = Float.valueOf(String.valueOf(value));
             priceInCurrency = (currencyRate) * priceInUSD;
         }
-        return priceInCurrency * (10 / Constants.ounce);
+        return priceInCurrency * (1 / Constants.ounce) *  (float)scaleWeight;
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.item_tola:
+                scaleWeight = 10;
+                break;
+            case R.id.item_ounce:
+                scaleWeight = 28.3495;
+                break;
+            case R.id.item_pound:
+                scaleWeight = 453.592;
+                break;
+            case R.id.item_stone:
+                scaleWeight = 6350.29;
+                break;
+            case R.id.item_kilo:
+                scaleWeight = 1000;
+                break;
+        }
+        fetchGoldPriceWithHistoryRange(historyRange);
+        return true;
     }
 }

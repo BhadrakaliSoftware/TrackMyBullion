@@ -8,8 +8,13 @@ public class Constants {
 
     public static final int HTTP_OK = 200;
     public static final int REQUEST_CURRENCY_CONVERSION_ACTIVITY = 1;
+    public static final int REQUEST_INVESMENTS_ACTIVITY = 2;
+    public static final int REQUEST_INVESMENT_DETAIL_ACTIVITY = 3;
+    public static final int REQUEST_ADD_INVESTMENT_ACTIVITY = 4;
+
     public static final String SELECTED_CURRENCY = "selected_currency";
     public static final String CURRENCIES = "currencies";
+    public static final String NODE_INVESTMENTS = "investments";
     public static String DRAWABLE = "drawable";
     public static String COUNTRIES = "countries";
 

@@ -26,6 +26,7 @@ public class CurrencyValueFormatter implements IAxisValueFormatter {
             this.currencySymbol = Currency.getInstance(code).getSymbol();
         }catch(Exception e) {
             e.printStackTrace();
+            this.currencyCode = "USD";
         }
     }
 }

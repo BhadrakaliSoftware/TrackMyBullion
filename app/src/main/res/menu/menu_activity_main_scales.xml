@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:id="@+id/item_tola"
+        android:title="@string/tola"
+        android:icon="@mipmap/ic_action_weight">
+    </item>
+
+    <item
+        android:id="@+id/item_ounce"
+        android:title="@string/ounce"
+        app:showAsAction="ifRoom"
+        android:icon="@mipmap/ic_action_weight">
+    </item>
+
+    <item
+        android:id="@+id/item_pound"
+        android:title="@string/pound"
+        app:showAsAction="ifRoom"
+        android:icon="@mipmap/ic_action_weight">
+    </item>
+
+    <item
+        android:id="@+id/item_stone"
+        android:title="@string/stone"
+        app:showAsAction="ifRoom"
+        android:icon="@mipmap/ic_action_weight">
+    </item>
+
+    <item
+        android:id="@+id/item_kilo"
+        android:title="@string/kilo"
+        app:showAsAction="ifRoom"
+        android:icon="@mipmap/ic_action_weight">
+    </item>
+
+</menu>

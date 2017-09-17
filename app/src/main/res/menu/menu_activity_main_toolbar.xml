@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!--Show the scale for the currency-->
+    <item android:id="@+id/action_wechange_scaleight"
+        android:title="@string/change_scale"
+        app:showAsAction="ifRoom"
+        android:icon="@mipmap/ic_action_weight">
+    </item>
 
     <!--Show currency conversion action button if possible-->
     <item android:id="@+id/action_currency_conversion"
         android:title="@string/action_currency_conversion"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_currency_exchange_gold_bg_white">
+        android:icon="@mipmap/ic_currency_exchange">
     </item>
 
 </menu>

@@ -8,7 +8,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
         android:orientation="vertical">
 
         <HorizontalScrollView
@@ -34,7 +33,9 @@
                     android:background="@drawable/rounded_corner"
                     android:padding="8dp"
                     android:text="@string/oneDay"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:textColor="@drawable/fragment_gold_price_tv_history_range_text"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/activity_main_tv_week"
@@ -47,7 +48,9 @@
                     android:background="@drawable/rounded_corner"
                     android:padding="8dp"
                     android:text="@string/fiveDays"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:textColor="@drawable/fragment_gold_price_tv_history_range_text"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/activity_main_tv_month"
@@ -60,7 +63,9 @@
                     android:background="@drawable/rounded_corner"
                     android:padding="8dp"
                     android:text="@string/oneMonth"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:textColor="@drawable/fragment_gold_price_tv_history_range_text"
+                    android:textStyle="bold" />
 
 
                 <TextView
@@ -74,7 +79,9 @@
                     android:background="@drawable/rounded_corner"
                     android:padding="8dp"
                     android:text="@string/sixMonth"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:textColor="@drawable/fragment_gold_price_tv_history_range_text"
+                    android:textStyle="bold" />
 
 
                 <TextView
@@ -88,7 +95,9 @@
                     android:background="@drawable/rounded_corner"
                     android:padding="8dp"
                     android:text="@string/oneYear"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:textColor="@drawable/fragment_gold_price_tv_history_range_text"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/activity_main_tv_fiveYears"
@@ -101,7 +110,9 @@
                     android:background="@drawable/rounded_corner"
                     android:padding="8dp"
                     android:text="@string/fiveYear"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:textColor="@drawable/fragment_gold_price_tv_history_range_text"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/activity_main_tv_tenYear"
@@ -114,7 +125,9 @@
                     android:background="@drawable/rounded_corner"
                     android:padding="8dp"
                     android:text="@string/tenYears"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:textColor="@drawable/fragment_gold_price_tv_history_range_text"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
@@ -129,20 +142,26 @@
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/activity_main_lineChart"
                 android:layout_width="match_parent"
-                android:layout_height="360dp"
-                android:layout_gravity="center"/>
+                android:layout_height="match_parent"
+                android:layout_gravity="center" />
 
         </FrameLayout>
 
-        <com.google.android.gms.ads.AdView
-            xmlns:ads="http://schemas.android.com/apk/res-auto"
+        <Button
+            android:id="@+id/activity_main_button_show_investment"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="@string/investment"
+            android:visibility="gone" />
+
+        <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
             android:id="@+id/adView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:visibility="gone"
             ads:adSize="BANNER"
-            ads:adUnitId="ca-app-pub-2958563283041180/1129861182">
-        </com.google.android.gms.ads.AdView>
+            ads:adUnitId="ca-app-pub-2958563283041180/1129861182"></com.google.android.gms.ads.AdView>
 
     </LinearLayout>
 
