@@ -18,6 +18,7 @@ public class DateUtils {
 
     public final static String DD_MM_YYYY = "dd/MM/yyyy";
     final static String MM_DD_YYYY = "MM/dd/yyyy";
+    public static String yyyyMMdd_HHmmaz = "yyyy-MM-dd HH:mm a z";
 
     public static Timestamp getTimeStamp(String dateString)  throws InvalidParameterException{
 

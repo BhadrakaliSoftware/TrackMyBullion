@@ -78,7 +78,8 @@ public class ActivityCurrencyExchange extends AppCompatActivity
 
     private void init() {
         ButterKnife.bind(this);
-        fetchCurrenciesWithReference(Constants.CURRENCYCODE.USD);
+
+        testFirebase();
     }
 
     private void testFirebase() {
@@ -92,13 +93,11 @@ public class ActivityCurrencyExchange extends AppCompatActivity
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (progressDialog != null) {
-                    progressDialog.show();
-                }
+                progressDialog = ProgressDialog.show(ActivityCurrencyExchange.this, "", "");
             }
         });
 
-        DatabaseReference databaseReference = mFirebaseDatabase.getReference();
+        DatabaseReference databaseReference = mFirebaseDatabase.getReference().child(Constants.COUNTRIES);
         databaseReference.addValueEventListener(this);
     }
 
@@ -130,8 +129,6 @@ public class ActivityCurrencyExchange extends AppCompatActivity
     }
 
     private void handleResonseCurrencyRate(Response response) {
-        //handle firebase
-        this.testFirebase();
 
         Gson gson = new Gson();
         try {
@@ -156,6 +153,9 @@ public class ActivityCurrencyExchange extends AppCompatActivity
 
             ///////////////////
 
+            //handle firebase
+//            this.testFirebase();
+
         } catch (NullPointerException e) {
             e.printStackTrace();
         } catch (Exception ex) {
@@ -173,6 +173,7 @@ public class ActivityCurrencyExchange extends AppCompatActivity
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
 
+
         //Method is called with initial value and again when value changes
         try {
             GenericTypeIndicator<List<Country>> t = new GenericTypeIndicator<List<Country>>() {
@@ -187,20 +188,23 @@ public class ActivityCurrencyExchange extends AppCompatActivity
                 @Override
                 public void run() {
                    mAdapter.notifyDataSetChanged();
+                    progressDialog.dismiss();
+                    fetchCurrenciesWithReference(Constants.CURRENCYCODE.USD);
                 }
             });
 
-            progressDialog.dismiss();
 
         } catch (Exception ex) {
             ex.printStackTrace();
             progressDialog.dismiss();
+            fetchCurrenciesWithReference(Constants.CURRENCYCODE.USD);
         }
     }
 
     @Override
     public void onCancelled(DatabaseError databaseError) {
         progressDialog.dismiss();
+        fetchCurrenciesWithReference(Constants.CURRENCYCODE.USD);
     }
 
     @Override

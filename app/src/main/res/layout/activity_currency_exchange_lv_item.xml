@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:clickable="true"
-    android:background="@color/white">
+    android:clickable="true">
 
     <TextView
         android:layout_width="match_parent"
@@ -48,7 +47,6 @@
                     android:layout_gravity="center_vertical"
                     android:padding="8dp"
                     android:text="@string/INR"
-                    android:textColor="@color/primary_text"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -66,14 +64,12 @@
             android:padding="8dp"
             android:text="@string/sampleRupee"
             android:textAlignment="center"
-            android:textColor="@color/secondary_text"
             android:textSize="18sp" />
 
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/primary_light"/>
+        android:layout_height="1dp"/>
 
 </LinearLayout>

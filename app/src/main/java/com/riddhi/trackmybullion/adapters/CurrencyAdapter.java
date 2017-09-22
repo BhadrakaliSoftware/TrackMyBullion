@@ -68,7 +68,8 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyViewHolder> im
         try {
             Object valueCurrency = field.get(object);
             Log.d(TAG, String.valueOf(valueCurrency));
-            holder.tvCodeValue.setText(String.valueOf(valueCurrency));
+            String currencyValue = String.valueOf(valueCurrency);
+            String currencySymbol = "";
 
             if (mCountries != null && mCountries.size() > 0) {
                 for (Country country : mCountries) {
@@ -81,10 +82,14 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyViewHolder> im
                                         Constants.DRAWABLE, mContext.getPackageName());
                         if (resId > 0) {
                             holder.ivCountryFlag.setImageResource(resId);
+                            currencySymbol =  country.getCurrencies().get(0).getSymbol();
                         }
                     }
                 }
             }
+            currencyValue = currencyValue + " " + currencySymbol;
+            holder.tvCodeValue.setText(currencyValue);
+
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
