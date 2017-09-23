@@ -1,24 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="windowBackground">#FFFFFF</color>
-    <color name="navigationBarColor">#000000</color>
-    <color name="golden">#FBC02D</color>
-    <color name="golderLight">#FFF176</color>
     <color name="goldenOld">#CFB53B</color>
     <color name="vegasGold">#C5B358</color>
-    <color name="silver">#FAFAFA</color>
     <color name="white">#ffffff</color>
-    <color name="amberLight">#FFF8E1</color>
     <color name="black">#000000</color>
 
     <color name="primary">#FBC02D</color>
     <color name="primary_dark">#F57F17</color>
     <color name="primary_light">#FFF9C4</color>
     <color name="accent">#D500F9</color>
-    <color name="primary_text">#FFFFFf</color>
-    <color name="secondary_text">#F6F6F6</color>
-    <color name="icons">#000000</color>
-    <color name="divider">#DFDFDF</color>
 
 </resources>

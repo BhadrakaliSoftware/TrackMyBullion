@@ -1,27 +1,35 @@
 {
   "project_info": {
-    "project_number": "62423462926",
-    "firebase_url": "https://trackmybullion-c7b42.firebaseio.com",
-    "project_id": "trackmybullion-c7b42",
-    "storage_bucket": "trackmybullion-c7b42.appspot.com"
+    "project_number": "228130483753",
+    "firebase_url": "https://trackmybullion-d15ef.firebaseio.com",
+    "project_id": "trackmybullion-d15ef",
+    "storage_bucket": "trackmybullion-d15ef.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:62423462926:android:f1d58d47f86dcfdc",
+        "mobilesdk_app_id": "1:228130483753:android:b5f60cfcebee5631",
         "android_client_info": {
-          "package_name": "com.riddhi.trackmybullion"
+          "package_name": "com.bhadrasoft.trackmybullion"
         }
       },
       "oauth_client": [
         {
-          "client_id": "62423462926-1m9a46sf9dgi0hcdt112v2gn4iomprip.apps.googleusercontent.com",
+          "client_id": "228130483753-rmodnm5tpd3k7349hc5trv5quvj2khvh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bhadrasoft.trackmybullion",
+            "certificate_hash": "73f6e2e52434a0e010f3a7ec24f308eb720fddde"
+          }
+        },
+        {
+          "client_id": "228130483753-697d1ki517vj8kgkg83o47pdo6eu5q79.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB7owHddAbGYb6oTiUChv3hO6hXNVAGmYM"
+          "current_key": "AIzaSyAddnqQEdpb4BWtccKELjV8gnqoYWp9ur0"
         }
       ],
       "services": {
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "228130483753-697d1ki517vj8kgkg83o47pdo6eu5q79.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2
