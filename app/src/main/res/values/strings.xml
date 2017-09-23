@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">TrackMyBullion</string>
+    <string name="gold">Gold</string>
+    <string name="silver">Silver</string>
+    <string name="returns">Return</string>
     <string name="fiveDays">Week</string>
     <string name="oneMonth">Month</string>
     <string name="sixMonth">6 Months</string>
@@ -7,11 +10,16 @@
     <string name="fiveYear">5 Years</string>
     <string name="oneDay">Today</string>
     <string name="tenYears">Decade</string>
+    <string name="lastupdatedat">Last Upated At :</string>
+    <string name="current_currency">Select Currency</string>
     <string name="action_currency_conversion">Convert Currency</string>
     <string name="INR">INR</string>
     <string name="sampleRupee"> 65.6 \n Indian Rupees</string>
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
     <string name="investment">Investments</string>
+    <string name="invested">Invested</string>
     <string name="select_date">Select Date</string>
+    <string name="sampleDate">20 Aug 2017</string>
     <string name="sampleWeight">50 g</string>
     <string name="sampleAmount">20000</string>
     <string name="save">Save</string>
