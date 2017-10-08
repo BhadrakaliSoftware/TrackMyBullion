@@ -11,7 +11,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -59,6 +61,7 @@ public class MainActivity extends AppCompatActivity
     private String selectedCurrency = "USD";
     private String selectedCurrencySymbol = "$";
     private double scaleWeight = 10;
+    private Entry selectedEntry = null;
 
     Constants.HistoryRange historyRange = Constants.HistoryRange.WEEK;
 
@@ -95,7 +98,24 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.activity_main_tv_date)
     TextView tvSelectedDate;
 
+    @BindView(R.id.activity_main_tv_current_price)
+    TextView tvCurrentPrice;
+
+    @BindView(R.id.activity_main_tv_compare_price)
+    TextView tvComparePrice;
+
+    @BindView(R.id.activity_main_tv_change_desc)
+    TextView tvChangeDesc;
+
+    @BindView(R.id.activity_main_ll_price_change)
+    LinearLayout llPriceChange;
+
+    @BindView(R.id.activity_main_ll_price_compare)
+    LinearLayout llPriceCompare;
+
     private AdView mAdView;
+
+    public static final String TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,7 +132,6 @@ public class MainActivity extends AppCompatActivity
 
     private void init() {
         ButterKnife.bind(this);
-
         getSupportActionBar().setElevation(0);
 
         //Load default view
@@ -220,24 +239,31 @@ public class MainActivity extends AppCompatActivity
         switch (v.getId()) {
             case R.id.activity_main_tv_today:
                 this.historyRange = Constants.HistoryRange.DAY;
+                this.tvChangeDesc.setText("");
                 break;
             case R.id.activity_main_tv_week:
                 this.historyRange = Constants.HistoryRange.WEEK;
+                this.tvChangeDesc.setText("last week");
                 break;
             case R.id.activity_main_tv_month:
                 this.historyRange = Constants.HistoryRange.MONTH;
+                this.tvChangeDesc.setText("last month");
                 break;
             case R.id.activity_main_tv_sixMonths:
                 this.historyRange = Constants.HistoryRange.SIX_MONTH;
+                this.tvChangeDesc.setText("last 6 month");
                 break;
             case R.id.activity_main_tv_year:
                 this.historyRange = Constants.HistoryRange.YEAR;
+                this.tvChangeDesc.setText("last year");
                 break;
             case R.id.activity_main_tv_fiveYears:
                 this.historyRange = Constants.HistoryRange.FIVE_YEAR;
+                this.tvChangeDesc.setText("five year");
                 break;
             case R.id.activity_main_tv_tenYear:
                 this.historyRange = Constants.HistoryRange.TEN_YEAR;
+                this.tvChangeDesc.setText("last decade");
                 break;
         }
         fetchGoldPriceWithHistoryRange(historyRange);
@@ -323,6 +349,27 @@ public class MainActivity extends AppCompatActivity
                 lineChart.getAxisLeft().setDrawAxisLine(false);
                 lineChart.getAxisRight().setDrawAxisLine(false);
                 lineChart.setOnChartValueSelectedListener(this);
+                lineChart.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+
+                        switch (event.getAction()) {
+                            case MotionEvent.ACTION_DOWN:
+                                Log.d(TAG, "onTouch: down touch");
+                                llPriceChange.setVisibility(View.VISIBLE);
+                                llPriceCompare.setVisibility(View.GONE);
+                                lineChart.setSelected(false);
+                                break;
+                            case MotionEvent.ACTION_UP:
+                                llPriceChange.setVisibility(View.GONE);
+                                llPriceCompare.setVisibility(View.VISIBLE);
+                                lineChart.setSelected(false);
+                                Log.d(TAG, "onTouch: up touch");
+                                break;
+                        }
+                        return false;
+                    }
+                });
                 lineChart.setScaleEnabled(false);
 
                 runOnUiThread(new Runnable() {
@@ -338,9 +385,15 @@ public class MainActivity extends AppCompatActivity
 
                         //set the label prices
                         Entry lastEntry = entries.get(entries.size() - 1);
-                        tvSelectedPrice.setText( new DecimalFormat(".##").format(lastEntry.getY()));
-                        tvSelectedDate.setText( DateUtils.getDateString((long) lastEntry.getX(),DateUtils.DD_MM_YYYY));
+                        selectedEntry = lastEntry;
+                        tvSelectedPrice.setText( new DecimalFormat(".##").format(selectedEntry.getY()));
+                        tvSelectedDate.setText( DateUtils.getDateString((long) selectedEntry.getX(),DateUtils.DD_MM_YYYY));
                         tvSymbol.setText(java.util.Currency.getInstance(selectedCurrency).getSymbol());
+
+                        //set the price changes labels
+                        Entry firstEntry = entries.get(0);
+                        tvCurrentPrice.setText( new DecimalFormat(".##").format(lastEntry.getY()));
+                        tvComparePrice.setText( new DecimalFormat(".##").format(firstEntry.getY()));
                     }
                 });
 
@@ -411,13 +464,13 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onValueSelected(Entry e, Highlight h) {
 
-        tvSelectedPrice.setText( new DecimalFormat(".##").format(e.getY()));
-        tvSelectedDate.setText( DateUtils.getDateString((long) e.getX(),DateUtils.DD_MM_YYYY));
-
+        selectedEntry = e;
+        tvSelectedPrice.setText( new DecimalFormat(".##").format(selectedEntry.getY()));
+        tvSelectedDate.setText( DateUtils.getDateString((long) selectedEntry.getX(),DateUtils.DD_MM_YYYY));
+        tvCurrentPrice.setText( new DecimalFormat(".##").format(selectedEntry.getY()));
     }
 
     @Override
     public void onNothingSelected() {
-
     }
 }

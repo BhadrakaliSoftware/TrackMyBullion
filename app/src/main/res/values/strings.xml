@@ -24,10 +24,10 @@
     <string name="sampleAmount">20000</string>
     <string name="save">Save</string>
     <string name="change_scale">Change Scale</string>
-    <string name="tola">Tola (10g)</string>
-    <string name="ounce">Ounce (28.3495g)</string>
-    <string name="pound">Pound (453.592g)</string>
-    <string name="stone">Stone (~6kg)</string>
-    <string name="kilo">Kilogram (1000g)</string>
+    <string name="tola">Tola</string>
+    <string name="ounce">Ounce</string>
+    <string name="pound">Pound</string>
+    <string name="stone">Stone</string>
+    <string name="kilo">Kilogram</string>
 
 </resources>
