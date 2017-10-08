@@ -186,7 +186,7 @@ public class ActivityCurrencyExchange extends AppCompatActivity
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    mAdapter.notifyDataSetChanged();
+                   mAdapter.notifyDataSetChanged();
                     progressDialog.dismiss();
                     fetchCurrenciesWithReference(Constants.CURRENCYCODE.USD);
                 }

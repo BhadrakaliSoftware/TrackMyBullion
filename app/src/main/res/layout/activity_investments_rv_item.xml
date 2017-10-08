@@ -147,7 +147,6 @@
 
             </ImageView>
 
-            =
 
             <TextView
                 android:id="@+id/activity_investments_tv_date"

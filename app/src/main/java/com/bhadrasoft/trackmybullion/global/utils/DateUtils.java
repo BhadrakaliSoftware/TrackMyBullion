@@ -17,6 +17,7 @@ import java.util.Date;
 public class DateUtils {
 
     public final static String DD_MM_YYYY = "dd/MM/yyyy";
+    public final static String DD_MMM_YYYY = "dd MMM yyyy";
     final static String MM_DD_YYYY = "MM/dd/yyyy";
     public static String yyyyMMdd_HHmmaz = "yyyy-MM-dd HH:mm a z";
 

@@ -1,15 +1,15 @@
 <resources>
-    <string name="app_name">TrackMyBullion</string>
+    <string name="app_name">Gold Price Daily</string>
     <string name="gold">Gold</string>
     <string name="silver">Silver</string>
     <string name="returns">Return</string>
-    <string name="fiveDays">Week</string>
-    <string name="oneMonth">Month</string>
-    <string name="sixMonth">6 Months</string>
-    <string name="oneYear">Year</string>
-    <string name="fiveYear">5 Years</string>
-    <string name="oneDay">Today</string>
-    <string name="tenYears">Decade</string>
+    <string name="fiveDays">1W</string>
+    <string name="oneMonth">1M</string>
+    <string name="sixMonth">6M</string>
+    <string name="oneYear">1Y</string>
+    <string name="fiveYear">5Y</string>
+    <string name="oneDay">1D</string>
+    <string name="tenYears">ALL</string>
     <string name="lastupdatedat">Last Upated At :</string>
     <string name="current_currency">Select Currency</string>
     <string name="action_currency_conversion">Convert Currency</string>

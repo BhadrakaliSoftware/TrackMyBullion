@@ -12,9 +12,9 @@
     <color name="amberLight">#FFF8E1</color>
     <color name="black">#000000</color>
 
-    <color name="primary">#FBC02D</color>
-    <color name="primary_dark">#F57F17</color>
-    <color name="primary_light">#FFF9C4</color>
+    <color name="primary">#022648</color>
+    <color name="primary_dark">#0F7BD5</color>
+    <color name="primary_light">#0F7BD5</color>
     <color name="accent">#D500F9</color>
     <color name="primary_text">#FFFFFf</color>
     <color name="secondary_text">#F6F6F6</color>

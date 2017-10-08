@@ -12,7 +12,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -21,13 +20,14 @@ import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.bhadrasoft.trackmybullion.global.Constants;
 import com.bhadrasoft.trackmybullion.global.graph.AxisValueFormatter;
-import com.bhadrasoft.trackmybullion.global.graph.CurrencyValueFormatter;
 import com.bhadrasoft.trackmybullion.global.graph.DayAxisValueFormatter;
 import com.bhadrasoft.trackmybullion.global.graph.ValueFormatter;
 import com.bhadrasoft.trackmybullion.global.utils.DateUtils;
@@ -35,10 +35,12 @@ import com.bhadrasoft.trackmybullion.models.Currency;
 import com.bhadrasoft.trackmybullion.models.FinancialData;
 import com.bhadrasoft.trackmybullion.service.ServiceHandler;
 
+
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.sql.Timestamp;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -50,11 +52,12 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity
-        implements View.OnClickListener, Callback, PopupMenu.OnMenuItemClickListener {
+        implements View.OnClickListener, Callback, PopupMenu.OnMenuItemClickListener, OnChartValueSelectedListener {
 
     private Currency currency;
     private ProgressDialog progressDialog;
     private String selectedCurrency = "USD";
+    private String selectedCurrencySymbol = "$";
     private double scaleWeight = 10;
 
     Constants.HistoryRange historyRange = Constants.HistoryRange.WEEK;
@@ -83,8 +86,14 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.activity_main_tv_tenYear)
     TextView tvTenYears;
 
-    @BindView(R.id.activity_main_button_show_investment)
-    Button buttonShowInvestment;
+    @BindView(R.id.activity_main_tv_price)
+    TextView tvSelectedPrice;
+
+    @BindView(R.id.activity_main_tv_symbol)
+    TextView tvSymbol;
+
+    @BindView(R.id.activity_main_tv_date)
+    TextView tvSelectedDate;
 
     private AdView mAdView;
 
@@ -115,7 +124,6 @@ public class MainActivity extends AppCompatActivity
         tvOneYear.setOnClickListener(this);
         tvFiveYears.setOnClickListener(this);
         tvTenYears.setOnClickListener(this);
-        buttonShowInvestment.setOnClickListener(this);
     }
 
     private void initData() {
@@ -231,9 +239,6 @@ public class MainActivity extends AppCompatActivity
             case R.id.activity_main_tv_tenYear:
                 this.historyRange = Constants.HistoryRange.TEN_YEAR;
                 break;
-            case R.id.activity_main_button_show_investment:
-                showInvestments();
-                return;
         }
         fetchGoldPriceWithHistoryRange(historyRange);
     }
@@ -273,7 +278,7 @@ public class MainActivity extends AppCompatActivity
             Log.d("GOLD", String.valueOf(financialData));
 
             ///////////////////////////
-            List<Entry> entries = new ArrayList<Entry>();
+            final List<Entry> entries = new ArrayList<Entry>();
 
             for (List<String> data : financialData.getDataset().getData()) {
                 String date = data.get(0);
@@ -291,17 +296,18 @@ public class MainActivity extends AppCompatActivity
 
                 //LineDataSet
                 LineDataSet dataSet = new LineDataSet(entries, "GOLD");
-                dataSet.setCircleColor(this.colorFromResource(R.color.goldenOld));
-                dataSet.setColor(this.colorFromResource(R.color.goldenOld));
-                dataSet.setValueTextColor(this.colorFromResource(R.color.goldenOld));
-                dataSet.setLineWidth(3.0f);
+                dataSet.setDrawCircles(false);
+                dataSet.setColor(this.colorFromResource(R.color.white));
+                dataSet.setValueTextColor(this.colorFromResource(R.color.secondary_text));
+                dataSet.setLineWidth(1.0f);
+                dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
                 dataSet.setDrawFilled(true);
                 dataSet.setFillColor(this.colorFromResource(R.color.vegasGold));
                 dataSet.setValueFormatter(new ValueFormatter());
 
                 //LineData
                 LineData lineData = new LineData(dataSet);
-                lineData.setValueTextColor(this.colorFromResource(R.color.goldenOld));
+                lineData.setValueTextColor(this.colorFromResource(R.color.white));
                 lineChart.setData(lineData);
 
                 //Format Axis data
@@ -309,15 +315,15 @@ public class MainActivity extends AppCompatActivity
                 lineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
                 lineChart.getXAxis().setDrawAxisLine(false);
                 lineChart.getXAxis().setDrawGridLines(false);
-                lineChart.getXAxis().setAxisLineColor(R.color.white);
-                lineChart.getAxisLeft().setAxisLineColor(R.color.white);
+                lineChart.getXAxis().setTextColor(this.colorFromResource(R.color.primary_text));
+                lineChart.getAxisLeft().setValueFormatter(new AxisValueFormatter());
                 lineChart.getAxisRight().setValueFormatter(new AxisValueFormatter());
-                lineChart.getAxisLeft().setValueFormatter(new CurrencyValueFormatter(this.selectedCurrency.toUpperCase()));
                 lineChart.getAxisLeft() .setDrawGridLines(false);
                 lineChart.getAxisRight().setGridDashedLine(new DashPathEffect(new float[]{10.0f, 5.0f}, 1));
-                ;
                 lineChart.getAxisLeft().setDrawAxisLine(false);
                 lineChart.getAxisRight().setDrawAxisLine(false);
+                lineChart.setOnChartValueSelectedListener(this);
+                lineChart.setScaleEnabled(false);
 
                 runOnUiThread(new Runnable() {
                     @Override
@@ -327,14 +333,17 @@ public class MainActivity extends AppCompatActivity
                         Description description = new Description();
                         description.setText(financialData.getDataset().getName());
                         lineChart.setDescription(description);
-
-                        //Color resources
-                        int color = colorFromResource(R.color.white);
-                        lineChart.setBackgroundColor(color);
                         lineChart.invalidate();
                         lineChart.animateXY(500, 500);
+
+                        //set the label prices
+                        Entry lastEntry = entries.get(entries.size() - 1);
+                        tvSelectedPrice.setText( new DecimalFormat(".##").format(lastEntry.getY()));
+                        tvSelectedDate.setText( DateUtils.getDateString((long) lastEntry.getX(),DateUtils.DD_MM_YYYY));
+                        tvSymbol.setText(java.util.Currency.getInstance(selectedCurrency).getSymbol());
                     }
                 });
+
                 //////////////////////////
             } else {
                 lineChart.getAxisLeft().setAxisMinimum(0);
@@ -356,6 +365,7 @@ public class MainActivity extends AppCompatActivity
         Float priceInCurrency = priceInUSD;
         if (this.currency != null && currencyTo.length() > 0) {
             Object value = "";
+
             //get the value from the field name
             try {
                 Class aClass = this.currency.getRates().getClass();
@@ -396,5 +406,18 @@ public class MainActivity extends AppCompatActivity
         }
         fetchGoldPriceWithHistoryRange(historyRange);
         return true;
+    }
+
+    @Override
+    public void onValueSelected(Entry e, Highlight h) {
+
+        tvSelectedPrice.setText( new DecimalFormat(".##").format(e.getY()));
+        tvSelectedDate.setText( DateUtils.getDateString((long) e.getX(),DateUtils.DD_MM_YYYY));
+
+    }
+
+    @Override
+    public void onNothingSelected() {
+
     }
 }

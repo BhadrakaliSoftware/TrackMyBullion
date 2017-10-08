@@ -1,170 +1,273 @@
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ads="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/primary"
     android:fitsSystemWindows="true">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
-        android:orientation="vertical">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-        <HorizontalScrollView
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/primary"
-            android:scrollbars="none">
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_margin="4dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/activity_main_tv_today"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginRight="4dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/rounded_corner"
-                    android:padding="8dp"
-                    android:text="@string/oneDay"
-                    android:textAlignment="center"
-                    android:textColor="@drawable/fragment_gold_price_tv_history_range_text"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/activity_main_tv_week"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginRight="4dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/rounded_corner"
-                    android:padding="8dp"
-                    android:text="@string/fiveDays"
-                    android:textAlignment="center"
-                    android:textColor="@drawable/fragment_gold_price_tv_history_range_text"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/activity_main_tv_month"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginRight="4dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/rounded_corner"
-                    android:padding="8dp"
-                    android:text="@string/oneMonth"
-                    android:textAlignment="center"
-                    android:textColor="@drawable/fragment_gold_price_tv_history_range_text"
-                    android:textStyle="bold" />
-
-
-                <TextView
-                    android:id="@+id/activity_main_tv_sixMonths"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginRight="4dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/rounded_corner"
-                    android:padding="8dp"
-                    android:text="@string/sixMonth"
-                    android:textAlignment="center"
-                    android:textColor="@drawable/fragment_gold_price_tv_history_range_text"
-                    android:textStyle="bold" />
-
-
-                <TextView
-                    android:id="@+id/activity_main_tv_year"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginRight="4dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/rounded_corner"
-                    android:padding="8dp"
-                    android:text="@string/oneYear"
-                    android:textAlignment="center"
-                    android:textColor="@drawable/fragment_gold_price_tv_history_range_text"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/activity_main_tv_fiveYears"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginRight="4dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/rounded_corner"
-                    android:padding="8dp"
-                    android:text="@string/fiveYear"
-                    android:textAlignment="center"
-                    android:textColor="@drawable/fragment_gold_price_tv_history_range_text"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/activity_main_tv_tenYear"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginRight="4dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/rounded_corner"
-                    android:padding="8dp"
-                    android:text="@string/tenYears"
-                    android:textAlignment="center"
-                    android:textColor="@drawable/fragment_gold_price_tv_history_range_text"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-        </HorizontalScrollView>
-
-        <FrameLayout
-            android:id="@+id/rootLayout"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-
-            <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/activity_main_lineChart"
+            <RelativeLayout
+                android:id="@+id/rootLayout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center" />
+                android:layout_height="0dp"
+                android:layout_weight="1">
 
-        </FrameLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/activity_main_button_show_investment"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:text="@string/investment"
-            android:visibility="gone" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
-        <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/adView"
-            android:background="@color/white"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            ads:adSize="BANNER"
-            ads:adUnitId="ca-app-pub-2812477048451244/1239436153"></com.google.android.gms.ads.AdView>
 
-    </LinearLayout>
+                        <TextView
+                            android:id="@+id/activity_main_tv_currency"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Gold Price"
+                            android:layout_margin="8dp"
+                            android:textStyle="bold"
+                            android:textSize="20sp"
+                            android:textAlignment="center"
+                            android:textColor="@color/secondary_text" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/activity_main_tv_symbol"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:text="$"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/primary_text"/>
+
+                                <TextView
+                                    android:id="@+id/activity_main_tv_price"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/primary_text"
+                                    android:textStyle="bold"
+                                    android:textSize="24sp"
+                                    android:textAlignment="center"
+                                    android:text="2000.45"/>
+
+                            </LinearLayout>
+
+                        </RelativeLayout>
+
+                        <TextView
+                            android:id="@+id/activity_main_tv_date"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="01 Mar 2017"
+                            android:textAlignment="center"
+                            android:textColor="@color/secondary_text" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <HorizontalScrollView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:background="@color/primary"
+                            android:scrollbars="none">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="40dp"
+                                android:layout_margin="4dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/activity_main_tv_today"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginLeft="4dp"
+                                    android:layout_marginRight="4dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/rounded_corner"
+                                    android:padding="8dp"
+                                    android:text="@string/oneDay"
+                                    android:textAlignment="center"
+                                    android:textColor="@drawable/fragment_gold_price_tv_history_range_text"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/activity_main_tv_week"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginLeft="4dp"
+                                    android:layout_marginRight="4dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/rounded_corner"
+                                    android:padding="8dp"
+                                    android:text="@string/fiveDays"
+                                    android:textAlignment="center"
+                                    android:textColor="@drawable/fragment_gold_price_tv_history_range_text"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/activity_main_tv_month"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginLeft="4dp"
+                                    android:layout_marginRight="4dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/rounded_corner"
+                                    android:padding="8dp"
+                                    android:text="@string/oneMonth"
+                                    android:textAlignment="center"
+                                    android:textColor="@drawable/fragment_gold_price_tv_history_range_text"
+                                    android:textStyle="bold" />
+
+
+                                <TextView
+                                    android:id="@+id/activity_main_tv_sixMonths"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginLeft="4dp"
+                                    android:layout_marginRight="4dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/rounded_corner"
+                                    android:padding="8dp"
+                                    android:text="@string/sixMonth"
+                                    android:textAlignment="center"
+                                    android:textColor="@drawable/fragment_gold_price_tv_history_range_text"
+                                    android:textStyle="bold" />
+
+
+                                <TextView
+                                    android:id="@+id/activity_main_tv_year"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginLeft="4dp"
+                                    android:layout_marginRight="4dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/rounded_corner"
+                                    android:padding="8dp"
+                                    android:text="@string/oneYear"
+                                    android:textAlignment="center"
+                                    android:textColor="@drawable/fragment_gold_price_tv_history_range_text"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/activity_main_tv_fiveYears"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginLeft="4dp"
+                                    android:layout_marginRight="4dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/rounded_corner"
+                                    android:padding="8dp"
+                                    android:text="@string/fiveYear"
+                                    android:textAlignment="center"
+                                    android:textColor="@drawable/fragment_gold_price_tv_history_range_text"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/activity_main_tv_tenYear"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginLeft="4dp"
+                                    android:layout_marginRight="4dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/rounded_corner"
+                                    android:padding="8dp"
+                                    android:text="@string/tenYears"
+                                    android:textAlignment="center"
+                                    android:textColor="@drawable/fragment_gold_price_tv_history_range_text"
+                                    android:textStyle="bold" />
+
+                            </LinearLayout>
+
+                        </HorizontalScrollView>
+
+                    </RelativeLayout>
+
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/activity_main_lineChart"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:layout_centerInParent="true"
+                        android:layout_gravity="center"
+                        android:background="@color/primary" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/activity_maidn_button_show_investment"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="@string/investment"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:background="@color/primary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-2812477048451244/1239436153"/>
+
+</LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>
 
