@@ -17,8 +17,8 @@ android {
         applicationId "com.bhadrasoft.trackmybullion"
         minSdkVersion project.ext.minSDKVersion
         targetSdkVersion project.ext.targetSDKVersion
-        versionCode 4
-        versionName "1.0.3"
+        versionCode 5
+        versionName "1.0.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

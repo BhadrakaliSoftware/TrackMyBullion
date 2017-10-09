@@ -13,7 +13,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -62,6 +64,7 @@ public class MainActivity extends AppCompatActivity
     private String selectedCurrencySymbol = "$";
     private double scaleWeight = 10;
     private Entry selectedEntry = null;
+    private Entry firstEntryInPeriod = null;
 
     Constants.HistoryRange historyRange = Constants.HistoryRange.WEEK;
 
@@ -102,7 +105,7 @@ public class MainActivity extends AppCompatActivity
     TextView tvCurrentPrice;
 
     @BindView(R.id.activity_main_tv_compare_price)
-    TextView tvComparePrice;
+    TextView tvDifferenceInPrice;
 
     @BindView(R.id.activity_main_tv_change_desc)
     TextView tvChangeDesc;
@@ -112,6 +115,12 @@ public class MainActivity extends AppCompatActivity
 
     @BindView(R.id.activity_main_ll_price_compare)
     LinearLayout llPriceCompare;
+
+    @BindView(R.id.activity_main_scrollview)
+    ScrollView scrollview;
+
+    @BindView(R.id.activity_main_img_price_change)
+    ImageView imgPriceChange;
 
     private AdView mAdView;
 
@@ -386,14 +395,31 @@ public class MainActivity extends AppCompatActivity
                         //set the label prices
                         Entry lastEntry = entries.get(entries.size() - 1);
                         selectedEntry = lastEntry;
-                        tvSelectedPrice.setText( new DecimalFormat(".##").format(selectedEntry.getY()));
-                        tvSelectedDate.setText( DateUtils.getDateString((long) selectedEntry.getX(),DateUtils.DD_MM_YYYY));
-                        tvSymbol.setText(java.util.Currency.getInstance(selectedCurrency).getSymbol());
 
                         //set the price changes labels
                         Entry firstEntry = entries.get(0);
-                        tvCurrentPrice.setText( new DecimalFormat(".##").format(lastEntry.getY()));
-                        tvComparePrice.setText( new DecimalFormat(".##").format(firstEntry.getY()));
+                        firstEntryInPeriod = entries.get(0);
+
+                        tvSelectedPrice.setText(new DecimalFormat(".##").format(selectedEntry.getY()));
+                        tvSelectedDate.setText(DateUtils.getDateString((long) selectedEntry.getX(), DateUtils.DD_MM_YYYY));
+                        tvSymbol.setText(java.util.Currency.getInstance(selectedCurrency).getSymbol());
+                        tvCurrentPrice.setText(new DecimalFormat(".##").format(lastEntry.getY()));
+
+                        //price change different
+                        float priceDifference = selectedEntry.getY() - firstEntryInPeriod.getY();
+                        tvDifferenceInPrice.setText(new DecimalFormat(".##").format(priceDifference));
+
+                        if (priceDifference > 0 ){
+                            imgPriceChange.setVisibility(View.VISIBLE);
+                            imgPriceChange.setImageResource(R.drawable.thumbs_up);
+
+                        }else if (priceDifference  == 0) {
+                            imgPriceChange.setVisibility(View.GONE);
+                        }else {
+                            imgPriceChange.setVisibility(View.VISIBLE);
+                            imgPriceChange.setImageResource(R.drawable.thumbs_down);
+                        }
+
                     }
                 });
 
@@ -464,10 +490,24 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onValueSelected(Entry e, Highlight h) {
 
+        float priceDifference;
+        priceDifference = selectedEntry.getY() - firstEntryInPeriod.getY();
         selectedEntry = e;
         tvSelectedPrice.setText( new DecimalFormat(".##").format(selectedEntry.getY()));
         tvSelectedDate.setText( DateUtils.getDateString((long) selectedEntry.getX(),DateUtils.DD_MM_YYYY));
         tvCurrentPrice.setText( new DecimalFormat(".##").format(selectedEntry.getY()));
+        tvDifferenceInPrice.setText((new DecimalFormat(".##").format(priceDifference)));
+
+        if (priceDifference > 0 ){
+            imgPriceChange.setVisibility(View.VISIBLE);
+            imgPriceChange.setImageResource(R.drawable.thumbs_up);
+
+        }else if (priceDifference  == 0) {
+            imgPriceChange.setVisibility(View.GONE);
+        }else {
+            imgPriceChange.setVisibility(View.VISIBLE);
+            imgPriceChange.setImageResource(R.drawable.thumbs_down);
+        }
     }
 
     @Override
