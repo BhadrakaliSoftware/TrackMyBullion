@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity
 
     private void fetchGoldPriceWithHistoryRange(Constants.HistoryRange range) {
 
-        progressDialog = ProgressDialog.show(this, "", "");
+        this.showProgressDialog();
         String startDate = DateUtils.getDateForHistoryRange(range);
         try {
             String[] queryParameters = {"start_date=" + startDate};
@@ -215,6 +215,27 @@ public class MainActivity extends AppCompatActivity
                 handleActivityResult(requestCode, data);
                 break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        dismissProgressDialog();
+        super.onDestroy();
+    }
+
+    private void dismissProgressDialog() {
+        if ( progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
+    }
+
+    private void showProgressDialog() {
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setMessage("Loading. Please wait ...");
+            progressDialog.setCancelable(false);
+        }
+        progressDialog.show();
     }
 
     private void handleActivityResult(int requestCode, Intent data) {
@@ -297,10 +318,10 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void showInvestments() {
+    /*private void showInvestments() {
         Intent intent = new Intent(this, ActivityInvestments.class);
         startActivityForResult(intent, Constants.REQUEST_INVESMENTS_ACTIVITY);
-    }
+    }*/
 
     private void handleResponseForRequestGoldPrice(Response response) {
 
@@ -501,8 +522,7 @@ public class MainActivity extends AppCompatActivity
         if (priceDifference > 0 ){
             imgPriceChange.setVisibility(View.VISIBLE);
             imgPriceChange.setImageResource(R.drawable.thumbs_up);
-
-        }else if (priceDifference  == 0) {
+          }else if (priceDifference  == 0) {
             imgPriceChange.setVisibility(View.GONE);
         }else {
             imgPriceChange.setVisibility(View.VISIBLE);
