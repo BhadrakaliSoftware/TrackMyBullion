@@ -403,7 +403,10 @@
             android:layout_gravity="center_horizontal"
             android:background="@color/primary"
             ads:adSize="BANNER"
-            ads:adUnitId="ca-app-pub-2812477048451244/1239436153" />
+            ads:adUnitId="ca-app-pub-39402560999425d44/6300978111" />
+
+        <!--real   -->
+        <!--test ca-app-pub-39402560999425d44/6300978111 -->
 
     </LinearLayout>
 

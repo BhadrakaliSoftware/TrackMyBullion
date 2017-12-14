@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+/* Add the Fabric plugin: */
+apply plugin: 'io.fabric'
 
 android {
     signingConfigs {
@@ -15,8 +17,8 @@ android {
         applicationId "com.bhadrasoft.trackmybullion"
         minSdkVersion project.ext.minSDKVersion
         targetSdkVersion project.ext.targetSDKVersion
-        versionCode 5
-        versionName "1.0.4"
+        versionCode 6
+        versionName "1.0.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -26,11 +28,9 @@ android {
             signingConfig signingConfigs.config
         }
     }
-    buildToolsVersion '26.0.2'
 }
 
 dependencies {
-    implementation 'com.google.firebase:firebase-messaging:10.0.1'
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
@@ -39,18 +39,27 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.1'
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
     compile 'com.squareup.okhttp3:okhttp:3.8.1'
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support:design:25.3.1'
-    compile 'com.jakewharton:butterknife:8.8.0'
+    compile 'com.jakewharton:butterknife:8.8.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:support-v4:25.3.1'
-    compile 'com.android.support:recyclerview-v7:25.3.1'
-    compile 'com.google.firebase:firebase-database:10.0.1'
-    compile 'com.google.firebase:firebase-crash:10.0.1'
-    compile 'com.google.firebase:firebase-ads:10.0.1'
-    compile 'com.google.firebase:firebase-core:10.0.1'
+    compile "com.android.support:support-v4:$project.ext.supportLibraryVersion"
+    compile "com.android.support:recyclerview-v7:$project.ext.supportLibraryVersion"
+    compile "com.android.support:appcompat-v7:$project.ext.supportLibraryVersion"
+    compile "com.android.support:design:$project.ext.supportLibraryVersion"
+
+    implementation "com.google.firebase:firebase-messaging:$project.ext.firebaseVersion"
+    implementation "com.google.firebase:firebase-database:$project.ext.firebaseVersion"
+//    implementation "com.google.firebase:firebase-crash:$project.ext.firebaseVersion"
+    implementation "com.google.firebase:firebase-ads:$project.ext.firebaseVersion"
+    implementation "com.google.firebase:firebase-core:$project.ext.firebaseVersion"
+
+    compile('com.crashlytics.sdk.android:crashlytics:2.7.1@aar') {
+        transitive = true;
+    }
+
     testCompile 'junit:junit:4.12'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 }
+
+
 
 apply plugin: 'com.google.gms.google-services'
