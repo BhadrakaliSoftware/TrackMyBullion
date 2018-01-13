@@ -11,6 +11,7 @@ public class Constants {
     public static final int REQUEST_INVESMENTS_ACTIVITY = 2;
     public static final int REQUEST_INVESMENT_DETAIL_ACTIVITY = 3;
     public static final int REQUEST_ADD_INVESTMENT_ACTIVITY = 4;
+    public static final int REQUEST_NOTIFICATION_RECIEVIED = 5;
 
     public static final String SELECTED_CURRENCY = "selected_currency";
     public static final String CURRENCIES = "currencies";
@@ -23,17 +24,22 @@ public class Constants {
 
     private static final String quandl_api_key = "3VmfA2dyxFsYCuVmcFsz";
     public static enum HistoryRange {DAY, WEEK, MONTH, SIX_MONTH, YEAR, FIVE_YEAR, TEN_YEAR};
-
+    public static enum CURRENCY {BITCOIN,GOLD, SILVER,ETHERIUM};
     /*
     * URLs : Urls for the service call
     * */
     private static final String host_name = "https://www.quandl.com";
-    public static final String url_gold_prices = host_name+"/api/v3/datasets/BUNDESBANK/BBK01_WT5511.json"+
-            "?api_key="+quandl_api_key;
-    public static final String url_gold_prices_lsx = host_name+"/api/v3/datasets/LBMA/GOLD.json"+
-            "?api_key="+quandl_api_key;
-    public static final String url_silver_prices_lsx = host_name+"/api/v3/datasets/LBMA/SILVER.json"+
-            "?api_key="+quandl_api_key;
+    public static final String url_gold_prices = host_name + "/api/v3/datasets/BUNDESBANK/BBK01_WT5511.json" +
+            "?api_key=" + quandl_api_key;
+    public static final String url_gold_prices_lsx = host_name + "/api/v3/datasets/LBMA/GOLD.json" +
+            "?api_key=" + quandl_api_key;
+    public static final String url_silver_prices_lsx = host_name + "/api/v3/datasets/LBMA/SILVER.json" +
+            "?api_key=" + quandl_api_key;
+    public static final String url_bitcoin_bitcoinwatch = host_name + "/api/v3/datasets/BCHARTS/BITSTAMPUSD.json" +
+            "?api_key=" + quandl_api_key;
+
+//    https://www.quandl.com/api/v3/datasets/BCHARTS/BITFINEXUSD.json
+//    https://www.quandl.com/api/v3/datasets/BCHARTS/HITBTCUSD.json?api_key=3VmfA2dyxFsYCuVmcFsz
 
     public static final float ounce = 28.3495f;
 

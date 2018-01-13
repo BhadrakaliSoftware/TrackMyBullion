@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.bhadrasoft.trackmybullion.global.utils.ParseUtils;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
@@ -49,6 +50,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import butterknife.BindInt;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import okhttp3.Call;
@@ -61,6 +63,7 @@ public class MainActivity extends AppCompatActivity
     private Currency currency;
     private ProgressDialog progressDialog;
     private String selectedCurrency = "USD";
+    private Constants.CURRENCY targetCurrency = Constants.CURRENCY.GOLD;
     private String selectedCurrencySymbol = "$";
     private double scaleWeight = 10;
     private Entry selectedEntry = null;
@@ -73,6 +76,12 @@ public class MainActivity extends AppCompatActivity
 
     @BindView(R.id.activity_main_tv_today)
     TextView tvOneDay;
+
+    @BindView(R.id.activity_main_tv_btc)
+    TextView tvBitCoin;
+
+    @BindView(R.id.activity_main_tv_gold)
+    TextView tvGold;
 
     @BindView(R.id.activity_main_tv_week)
     TextView tvFiveDays;
@@ -152,19 +161,34 @@ public class MainActivity extends AppCompatActivity
         tvOneYear.setOnClickListener(this);
         tvFiveYears.setOnClickListener(this);
         tvTenYears.setOnClickListener(this);
+        tvBitCoin.setOnClickListener(this);
+        tvGold.setOnClickListener(this);
     }
 
     private void initData() {
-        fetchGoldPriceWithHistoryRange(Constants.HistoryRange.WEEK);
+        fetchPriceWithHistoryRange(Constants.HistoryRange.WEEK, Constants.CURRENCY.GOLD );
     }
 
-    private void fetchGoldPriceWithHistoryRange(Constants.HistoryRange range) {
+    private void fetchPriceWithHistoryRange(Constants.HistoryRange range, Constants.CURRENCY currency) {
+
+        String url = Constants.url_gold_prices_lsx;
+        switch (currency) {
+            case GOLD:
+                url = Constants.url_gold_prices_lsx;
+                break;
+            case SILVER:
+                url = Constants.url_silver_prices_lsx;
+                break;
+            case BITCOIN:
+                url = Constants.url_bitcoin_bitcoinwatch;
+                break;
+        }
 
         this.showProgressDialog();
         String startDate = DateUtils.getDateForHistoryRange(range);
         try {
             String[] queryParameters = {"start_date=" + startDate};
-            ServiceHandler.buildRequest(Constants.url_gold_prices_lsx,
+            ServiceHandler.buildRequest(url,
                     Constants.REQUEST_TYPE.GET,
                     this, queryParameters);
         } catch (Exception exception) {
@@ -249,7 +273,7 @@ public class MainActivity extends AppCompatActivity
                 this.currency = (Currency) data.getExtras().get(Constants.CURRENCIES);
 
                 //relaod the graph
-                this.fetchGoldPriceWithHistoryRange(this.historyRange);
+                this.fetchPriceWithHistoryRange(this.historyRange, Constants.CURRENCY.GOLD );
                 break;
         }
     }
@@ -294,9 +318,15 @@ public class MainActivity extends AppCompatActivity
             case R.id.activity_main_tv_tenYear:
                 this.historyRange = Constants.HistoryRange.TEN_YEAR;
                 this.tvChangeDesc.setText("last decade");
+            case R.id.activity_main_tv_btc:
+                this.targetCurrency = Constants.CURRENCY.BITCOIN;
+                break;
+            case R.id.activity_main_tv_gold:
+                this.targetCurrency = Constants.CURRENCY.GOLD;
                 break;
         }
-        fetchGoldPriceWithHistoryRange(historyRange);
+
+        fetchPriceWithHistoryRange(historyRange, targetCurrency);
     }
 
     @Override
@@ -312,18 +342,14 @@ public class MainActivity extends AppCompatActivity
 
             switch (call.request().tag().toString()) {
                 case Constants.url_gold_prices_lsx:
-                    handleResponseForRequestGoldPrice(response);
+                case Constants.url_bitcoin_bitcoinwatch:
+                    handleResponseForRequest(response);
                     break;
             }
         }
     }
 
-    /*private void showInvestments() {
-        Intent intent = new Intent(this, ActivityInvestments.class);
-        startActivityForResult(intent, Constants.REQUEST_INVESMENTS_ACTIVITY);
-    }*/
-
-    private void handleResponseForRequestGoldPrice(Response response) {
+    private void handleResponseForRequest(Response response) {
 
         Gson gson = new Gson();
         try {
@@ -341,9 +367,18 @@ public class MainActivity extends AppCompatActivity
                 String usd_am = data.get(1);
                 String usd_pm = data.get(2);
                 Timestamp timestamp = DateUtils.getTimeStamp(date);
-                Float usd_price = this.currencyPrice(usd_am, this.selectedCurrency);
+                float price = 0;
+                switch (targetCurrency){
+                    case GOLD:
+                        price = this.currencyPrice(usd_am, this.selectedCurrency);
+                        break;
+                    case BITCOIN:
+                        price = ParseUtils.parseBitcoinPrices(data);
+                        break;
+                }
+//                Float usd_price = this.currencyPrice(usd_am, this.selectedCurrency);
                 Long time = timestamp.getTime();
-                Entry entry = new Entry(time, usd_price);
+                Entry entry = new Entry(time, price);
                 entries.add(entry);
             }
             Collections.reverse(entries);
@@ -504,7 +539,7 @@ public class MainActivity extends AppCompatActivity
                 scaleWeight = 1000;
                 break;
         }
-        fetchGoldPriceWithHistoryRange(historyRange);
+        fetchPriceWithHistoryRange(historyRange, targetCurrency);
         return true;
     }
 
