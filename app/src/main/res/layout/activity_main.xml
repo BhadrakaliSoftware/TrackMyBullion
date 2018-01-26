@@ -47,9 +47,10 @@
                                 android:layout_height="wrap_content"
                                 android:layout_margin="8dp"
                                 android:padding="5dp"
+                                android:background="@drawable/title_background"
                                 android:text="@string/gold"
                                 android:textAlignment="center"
-                                android:textColor="@color/secondary_text"
+                                android:textColor="@drawable/title_text_background"
                                 android:textSize="20sp"
                                 android:textStyle="bold" />
 
@@ -60,8 +61,9 @@
                                 android:layout_margin="8dp"
                                 android:padding="5dp"
                                 android:text="@string/btc"
+                                android:background="@drawable/title_background"
                                 android:textAlignment="center"
-                                android:textColor="@color/secondary_text"
+                                android:textColor="@drawable/title_text_background"
                                 android:textSize="20sp"
                                 android:textStyle="bold" />
 
@@ -171,6 +173,8 @@
                                             android:orientation="horizontal">
 
                                             <TextView
+                                                android:id="@+id/activity_main_tv_symbol_1"
+
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="match_parent"
                                                 android:text="$"
@@ -191,6 +195,7 @@
                                     </RelativeLayout>
 
                                     <TextView
+                                        android:id="@+id/activity_main_tv_label_current_price"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="end"
@@ -223,6 +228,7 @@
                                             android:orientation="horizontal">
 
                                             <TextView
+                                                android:id="@+id/activity_main_tv_symbol_2"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="match_parent"
                                                 android:text="$"
