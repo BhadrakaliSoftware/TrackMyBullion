@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.bhadrasoft.trackmybullion.global.utils.ParseUtils;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
@@ -49,11 +50,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import butterknife.BindInt;
 import butterknife.BindView;
+import butterknife.BindViews;
 import butterknife.ButterKnife;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
+
+import static com.bhadrasoft.trackmybullion.R.menu.menu_activity_main_scales;
 
 public class MainActivity extends AppCompatActivity
         implements View.OnClickListener, Callback, PopupMenu.OnMenuItemClickListener, OnChartValueSelectedListener {
@@ -61,6 +66,7 @@ public class MainActivity extends AppCompatActivity
     private Currency currency;
     private ProgressDialog progressDialog;
     private String selectedCurrency = "USD";
+    private Constants.CURRENCY targetCurrency = Constants.CURRENCY.GOLD;
     private String selectedCurrencySymbol = "$";
     private double scaleWeight = 10;
     private Entry selectedEntry = null;
@@ -73,6 +79,12 @@ public class MainActivity extends AppCompatActivity
 
     @BindView(R.id.activity_main_tv_today)
     TextView tvOneDay;
+
+    @BindView(R.id.activity_main_tv_btc)
+    TextView tvBitCoin;
+
+    @BindView(R.id.activity_main_tv_gold)
+    TextView tvGold;
 
     @BindView(R.id.activity_main_tv_week)
     TextView tvFiveDays;
@@ -95,8 +107,8 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.activity_main_tv_price)
     TextView tvSelectedPrice;
 
-    @BindView(R.id.activity_main_tv_symbol)
-    TextView tvSymbol;
+    @BindViews({R.id.activity_main_tv_symbol, R.id.activity_main_tv_symbol_1, R.id.activity_main_tv_symbol_2})
+    List<TextView> tvSymbols;
 
     @BindView(R.id.activity_main_tv_date)
     TextView tvSelectedDate;
@@ -122,16 +134,21 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.activity_main_img_price_change)
     ImageView imgPriceChange;
 
+    @BindView(R.id.activity_main_tv_label_current_price)
+    TextView tvLableCurrentPrice;
+
     private AdView mAdView;
 
     public static final String TAG = MainActivity.class.getSimpleName();
+    private boolean isTimeFrameChanged;
+    private boolean targetCurrencyChanged;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mAdView = (AdView) findViewById(R.id.adView);
+        mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
@@ -145,6 +162,7 @@ public class MainActivity extends AppCompatActivity
 
         //Load default view
         tvFiveDays.setSelected(true);
+        tvGold.setSelected(true);
         tvOneDay.setOnClickListener(this);
         tvFiveDays.setOnClickListener(this);
         tvOneMonth.setOnClickListener(this);
@@ -152,19 +170,34 @@ public class MainActivity extends AppCompatActivity
         tvOneYear.setOnClickListener(this);
         tvFiveYears.setOnClickListener(this);
         tvTenYears.setOnClickListener(this);
+        tvBitCoin.setOnClickListener(this);
+        tvGold.setOnClickListener(this);
     }
 
     private void initData() {
-        fetchGoldPriceWithHistoryRange(Constants.HistoryRange.WEEK);
+        fetchPriceWithHistoryRange(Constants.HistoryRange.WEEK, Constants.CURRENCY.GOLD );
     }
 
-    private void fetchGoldPriceWithHistoryRange(Constants.HistoryRange range) {
+    private void fetchPriceWithHistoryRange(Constants.HistoryRange range, Constants.CURRENCY currency) {
+
+        String url = Constants.url_gold_prices_lsx;
+        switch (currency) {
+            case GOLD:
+                url = Constants.url_gold_prices_lsx;
+                break;
+            case SILVER:
+                url = Constants.url_silver_prices_lsx;
+                break;
+            case BITCOIN:
+                url = Constants.url_bitcoin_bitcoinwatch;
+                break;
+        }
 
         this.showProgressDialog();
         String startDate = DateUtils.getDateForHistoryRange(range);
         try {
             String[] queryParameters = {"start_date=" + startDate};
-            ServiceHandler.buildRequest(Constants.url_gold_prices_lsx,
+            ServiceHandler.buildRequest(url,
                     Constants.REQUEST_TYPE.GET,
                     this, queryParameters);
         } catch (Exception exception) {
@@ -196,9 +229,17 @@ public class MainActivity extends AppCompatActivity
     public void showPopup(View v) {
         PopupMenu popup = new PopupMenu(this, v);
         MenuInflater inflater = popup.getMenuInflater();
-        inflater.inflate(R.menu.menu_activity_main_scales, popup.getMenu());
+        inflater.inflate(menu_activity_main_scales, popup.getMenu());
         popup.setOnMenuItemClickListener(this);
         popup.show();
+    }
+
+    public void hideMenuScale() {
+        findViewById(R.id.action_wechange_scaleight).setVisibility(View.GONE);
+    }
+
+    public void showMenuScale() {
+        findViewById(R.id.action_wechange_scaleight).setVisibility(View.VISIBLE);
     }
 
     private void showCountryCurrencies() {
@@ -249,7 +290,11 @@ public class MainActivity extends AppCompatActivity
                 this.currency = (Currency) data.getExtras().get(Constants.CURRENCIES);
 
                 //relaod the graph
-                this.fetchGoldPriceWithHistoryRange(this.historyRange);
+                /*
+                *   @param: historyRange: range from the current date
+                *   @param: targetCurrency: Targeted currency from the list.
+                * */
+                this.fetchPriceWithHistoryRange(this.historyRange, targetCurrency );
                 break;
         }
     }
@@ -257,46 +302,75 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onClick(View v) {
 
-        tvOneDay.setSelected(false);
-        tvFiveDays.setSelected(false);
-        tvOneMonth.setSelected(false);
-        tvSixMonths.setSelected(false);
-        tvOneYear.setSelected(false);
-        tvFiveYears.setSelected(false);
-        tvTenYears.setSelected(false);
-        v.setSelected(!v.isSelected());
-
         switch (v.getId()) {
             case R.id.activity_main_tv_today:
                 this.historyRange = Constants.HistoryRange.DAY;
                 this.tvChangeDesc.setText("");
+                this.setTimeFrameChanged(true);
                 break;
             case R.id.activity_main_tv_week:
                 this.historyRange = Constants.HistoryRange.WEEK;
                 this.tvChangeDesc.setText("last week");
+                this.setTimeFrameChanged(true);
                 break;
             case R.id.activity_main_tv_month:
                 this.historyRange = Constants.HistoryRange.MONTH;
                 this.tvChangeDesc.setText("last month");
+                this.setTimeFrameChanged(true);
                 break;
             case R.id.activity_main_tv_sixMonths:
                 this.historyRange = Constants.HistoryRange.SIX_MONTH;
                 this.tvChangeDesc.setText("last 6 month");
+                this.setTimeFrameChanged(true);
                 break;
             case R.id.activity_main_tv_year:
                 this.historyRange = Constants.HistoryRange.YEAR;
                 this.tvChangeDesc.setText("last year");
+                this.setTimeFrameChanged(true);
                 break;
             case R.id.activity_main_tv_fiveYears:
                 this.historyRange = Constants.HistoryRange.FIVE_YEAR;
                 this.tvChangeDesc.setText("five year");
+                this.setTimeFrameChanged(true);
                 break;
             case R.id.activity_main_tv_tenYear:
                 this.historyRange = Constants.HistoryRange.TEN_YEAR;
                 this.tvChangeDesc.setText("last decade");
+                this.setTimeFrameChanged(true);
+                break;
+            case R.id.activity_main_tv_btc:
+                this.targetCurrency = Constants.CURRENCY.BITCOIN;
+                this.setTargetCurrencyChanged(true);
+                this.tvLableCurrentPrice.setText("Bitcoin Price");
+                hideMenuScale();
+                break;
+            case R.id.activity_main_tv_gold:
+                this.targetCurrency = Constants.CURRENCY.GOLD;
+                this.setTargetCurrencyChanged(true);
+                this.tvLableCurrentPrice.setText("Gold Price");
+                showMenuScale();
                 break;
         }
-        fetchGoldPriceWithHistoryRange(historyRange);
+
+        if (this.isTimeFrameChanged()) {
+            tvOneDay.setSelected(false);
+            tvFiveDays.setSelected(false);
+            tvOneMonth.setSelected(false);
+            tvSixMonths.setSelected(false);
+            tvOneYear.setSelected(false);
+            tvFiveYears.setSelected(false);
+            tvTenYears.setSelected(false);
+            this.setTimeFrameChanged(false);
+        }
+
+        if(this.targetCurrencyChanged){
+            tvBitCoin.setSelected(false);
+            tvGold.setSelected(false);
+            this.setTargetCurrencyChanged(false);
+        }
+
+        v.setSelected(!v.isSelected());
+        fetchPriceWithHistoryRange(historyRange, targetCurrency);
     }
 
     @Override
@@ -312,18 +386,14 @@ public class MainActivity extends AppCompatActivity
 
             switch (call.request().tag().toString()) {
                 case Constants.url_gold_prices_lsx:
-                    handleResponseForRequestGoldPrice(response);
+                case Constants.url_bitcoin_bitcoinwatch:
+                    handleResponseForRequest(response);
                     break;
             }
         }
     }
 
-    /*private void showInvestments() {
-        Intent intent = new Intent(this, ActivityInvestments.class);
-        startActivityForResult(intent, Constants.REQUEST_INVESMENTS_ACTIVITY);
-    }*/
-
-    private void handleResponseForRequestGoldPrice(Response response) {
+    private void handleResponseForRequest(Response response) {
 
         Gson gson = new Gson();
         try {
@@ -341,9 +411,19 @@ public class MainActivity extends AppCompatActivity
                 String usd_am = data.get(1);
                 String usd_pm = data.get(2);
                 Timestamp timestamp = DateUtils.getTimeStamp(date);
-                Float usd_price = this.currencyPrice(usd_am, this.selectedCurrency);
+                float price = 0;
+                price = this.currencyPrice(usd_am, this.selectedCurrency, targetCurrency);
+    /*            switch (targetCurrency){
+                    case GOLD:
+                        price = this.currencyPrice(usd_am, this.selectedCurrency, targetCurrency);
+                        break;
+                    case BITCOIN:
+                        price = ParseUtils.parseBitcoinPrices(data);
+                        break;
+                }*/
+//                Float usd_price = this.currencyPrice(usd_am, this.selectedCurrency);
                 Long time = timestamp.getTime();
-                Entry entry = new Entry(time, usd_price);
+                Entry entry = new Entry(time, price);
                 entries.add(entry);
             }
             Collections.reverse(entries);
@@ -423,7 +503,9 @@ public class MainActivity extends AppCompatActivity
 
                         tvSelectedPrice.setText(new DecimalFormat(".##").format(selectedEntry.getY()));
                         tvSelectedDate.setText(DateUtils.getDateString((long) selectedEntry.getX(), DateUtils.DD_MM_YYYY));
-                        tvSymbol.setText(java.util.Currency.getInstance(selectedCurrency).getSymbol());
+                        for (TextView view: tvSymbols) {
+                            view.setText(java.util.Currency.getInstance(selectedCurrency).getSymbol());
+                        }
                         tvCurrentPrice.setText(new DecimalFormat(".##").format(lastEntry.getY()));
 
                         //price change different
@@ -460,7 +542,7 @@ public class MainActivity extends AppCompatActivity
         return ResourcesCompat.getColor(getResources(), colorResource, null);
     }
 
-    private Float currencyPrice(String USD, String currencyTo) {
+    private Float currencyPrice(String USD, String currencyTo, Constants.CURRENCY targetCurrency) {
         Float priceInUSD = Float.parseFloat(USD);
         Float priceInCurrency = priceInUSD;
         if (this.currency != null && currencyTo.length() > 0) {
@@ -481,7 +563,13 @@ public class MainActivity extends AppCompatActivity
             Float currencyRate = Float.valueOf(String.valueOf(value));
             priceInCurrency = (currencyRate) * priceInUSD;
         }
-        return priceInCurrency * (1 / Constants.ounce) *  (float)scaleWeight;
+
+        switch (targetCurrency){
+            case GOLD:
+                return priceInCurrency * (1 / Constants.ounce) *  (float)scaleWeight;
+            default:
+                return priceInCurrency;
+        }
     }
 
     @Override
@@ -504,7 +592,7 @@ public class MainActivity extends AppCompatActivity
                 scaleWeight = 1000;
                 break;
         }
-        fetchGoldPriceWithHistoryRange(historyRange);
+        fetchPriceWithHistoryRange(historyRange, targetCurrency);
         return true;
     }
 
@@ -518,6 +606,7 @@ public class MainActivity extends AppCompatActivity
         tvSelectedDate.setText( DateUtils.getDateString((long) selectedEntry.getX(),DateUtils.DD_MM_YYYY));
         tvCurrentPrice.setText( new DecimalFormat(".##").format(selectedEntry.getY()));
         tvDifferenceInPrice.setText((new DecimalFormat(".##").format(priceDifference)));
+        tvLableCurrentPrice.setText("On "+DateUtils.getDateString((long) selectedEntry.getX(), DateUtils.DD_MM_YYYY));
 
         if (priceDifference > 0 ){
             imgPriceChange.setVisibility(View.VISIBLE);
@@ -532,5 +621,17 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onNothingSelected() {
+    }
+
+    public boolean isTimeFrameChanged() {
+        return isTimeFrameChanged;
+    }
+
+    public void setTimeFrameChanged(boolean timeFrameChanged) {
+        isTimeFrameChanged = timeFrameChanged;
+    }
+
+    public void setTargetCurrencyChanged(boolean targetCurrencyChanged) {
+        this.targetCurrencyChanged = targetCurrencyChanged;
     }
 }
