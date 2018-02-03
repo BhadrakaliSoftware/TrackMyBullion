@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Gold Price Daily</string>
     <string name="gold">GOLD</string>
-    <string name="silver">Silver</string>
+    <string name="silver">SILVER</string>
     <string name="returns">Return</string>
     <string name="fiveDays">1W</string>
     <string name="oneMonth">1M</string>
@@ -29,6 +29,6 @@
     <string name="pound">Pound</string>
     <string name="stone">Stone</string>
     <string name="kilo">Kilogram</string>
-    <string name="btc">BTC</string>
+    <string name="btc">BITCOIN</string>
 
 </resources>

@@ -1,0 +1,50 @@
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/activity_main_tv_gold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_5sdp"
+        android:paddingLeft="@dimen/_5sdp"
+        android:paddingRight="@dimen/_5sdp"
+        android:background="@drawable/title_background"
+        android:text="@string/gold"
+        android:textAlignment="center"
+        android:textColor="@drawable/title_text_background"
+        android:textSize="@dimen/_14sdp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/activity_main_tv_btc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/_5sdp"
+        android:paddingRight="@dimen/_5sdp"
+        android:layout_margin="@dimen/_5sdp"
+        android:text="@string/btc"
+        android:background="@drawable/title_background"
+        android:textAlignment="center"
+        android:textColor="@drawable/title_text_background"
+        android:textSize="@dimen/_14sdp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/activity_main_tv_silver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/_5sdp"
+        android:paddingRight="@dimen/_5sdp"
+        android:layout_margin="@dimen/_5sdp"
+        android:text="@string/silver"
+        android:background="@drawable/title_background"
+        android:textAlignment="center"
+        android:textColor="@drawable/title_text_background"
+        android:textSize="@dimen/_14sdp"
+        android:textStyle="bold" />
+
+
+</LinearLayout>

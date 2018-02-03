@@ -41,6 +41,8 @@ import com.bhadrasoft.trackmybullion.models.FinancialData;
 import com.bhadrasoft.trackmybullion.service.ServiceHandler;
 
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
@@ -85,6 +87,9 @@ public class MainActivity extends AppCompatActivity
 
     @BindView(R.id.activity_main_tv_gold)
     TextView tvGold;
+
+    @BindView(R.id.activity_main_tv_silver)
+    TextView tvSilver;
 
     @BindView(R.id.activity_main_tv_week)
     TextView tvFiveDays;
@@ -163,6 +168,7 @@ public class MainActivity extends AppCompatActivity
         //Load default view
         tvFiveDays.setSelected(true);
         tvGold.setSelected(true);
+
         tvOneDay.setOnClickListener(this);
         tvFiveDays.setOnClickListener(this);
         tvOneMonth.setOnClickListener(this);
@@ -172,6 +178,7 @@ public class MainActivity extends AppCompatActivity
         tvTenYears.setOnClickListener(this);
         tvBitCoin.setOnClickListener(this);
         tvGold.setOnClickListener(this);
+        tvSilver.setOnClickListener(this);
     }
 
     private void initData() {
@@ -350,6 +357,12 @@ public class MainActivity extends AppCompatActivity
                 this.tvLableCurrentPrice.setText("Gold Price");
                 showMenuScale();
                 break;
+            case R.id.activity_main_tv_silver:
+                this.targetCurrency = Constants.CURRENCY.SILVER;
+                this.setTargetCurrencyChanged(true);
+                this.tvLableCurrentPrice.setText("Silver Price");
+                showMenuScale();
+                break;
         }
 
         if (this.isTimeFrameChanged()) {
@@ -366,6 +379,7 @@ public class MainActivity extends AppCompatActivity
         if(this.targetCurrencyChanged){
             tvBitCoin.setSelected(false);
             tvGold.setSelected(false);
+            tvSilver.setSelected(false);
             this.setTargetCurrencyChanged(false);
         }
 
@@ -387,6 +401,7 @@ public class MainActivity extends AppCompatActivity
             switch (call.request().tag().toString()) {
                 case Constants.url_gold_prices_lsx:
                 case Constants.url_bitcoin_bitcoinwatch:
+                case Constants.url_silver_prices_lsx:
                     handleResponseForRequest(response);
                     break;
             }
@@ -413,15 +428,6 @@ public class MainActivity extends AppCompatActivity
                 Timestamp timestamp = DateUtils.getTimeStamp(date);
                 float price = 0;
                 price = this.currencyPrice(usd_am, this.selectedCurrency, targetCurrency);
-    /*            switch (targetCurrency){
-                    case GOLD:
-                        price = this.currencyPrice(usd_am, this.selectedCurrency, targetCurrency);
-                        break;
-                    case BITCOIN:
-                        price = ParseUtils.parseBitcoinPrices(data);
-                        break;
-                }*/
-//                Float usd_price = this.currencyPrice(usd_am, this.selectedCurrency);
                 Long time = timestamp.getTime();
                 Entry entry = new Entry(time, price);
                 entries.add(entry);
@@ -501,16 +507,16 @@ public class MainActivity extends AppCompatActivity
                         Entry firstEntry = entries.get(0);
                         firstEntryInPeriod = entries.get(0);
 
-                        tvSelectedPrice.setText(new DecimalFormat(".##").format(selectedEntry.getY()));
+                        tvSelectedPrice.setText(new DecimalFormat("00.00").format(selectedEntry.getY()));
                         tvSelectedDate.setText(DateUtils.getDateString((long) selectedEntry.getX(), DateUtils.DD_MM_YYYY));
                         for (TextView view: tvSymbols) {
                             view.setText(java.util.Currency.getInstance(selectedCurrency).getSymbol());
                         }
-                        tvCurrentPrice.setText(new DecimalFormat(".##").format(lastEntry.getY()));
+                        tvCurrentPrice.setText(new DecimalFormat("00.00").format(lastEntry.getY()));
 
                         //price change different
                         float priceDifference = selectedEntry.getY() - firstEntryInPeriod.getY();
-                        tvDifferenceInPrice.setText(new DecimalFormat(".##").format(priceDifference));
+                        tvDifferenceInPrice.setText(new DecimalFormat("00.00").format(priceDifference));
 
                         if (priceDifference > 0 ){
                             imgPriceChange.setVisibility(View.VISIBLE);
@@ -566,6 +572,7 @@ public class MainActivity extends AppCompatActivity
 
         switch (targetCurrency){
             case GOLD:
+            case SILVER:
                 return priceInCurrency * (1 / Constants.ounce) *  (float)scaleWeight;
             default:
                 return priceInCurrency;

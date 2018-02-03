@@ -14,6 +14,7 @@ import com.bhadrasoft.trackmybullion.models.Country;
 import com.bhadrasoft.trackmybullion.models.Currency;
 
 import java.lang.reflect.Field;
+import java.text.DecimalFormat;
 import java.util.List;
 
 /**
@@ -66,6 +67,13 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyViewHolder> im
 
         try {
             Object valueCurrency = field.get(object);
+
+            /*
+            *   Format the number upto two decimal value
+            * */
+            DecimalFormat df = new DecimalFormat("#00.0000");
+            valueCurrency = df.format(valueCurrency);
+
             Log.d(TAG, String.valueOf(valueCurrency));
             String currencyValue = String.valueOf(valueCurrency);
             String currencySymbol = "";
