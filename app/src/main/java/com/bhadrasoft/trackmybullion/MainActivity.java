@@ -19,6 +19,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bhadrasoft.trackmybullion.global.utils.ParseUtils;
+import com.codemybrainsout.ratingdialog.RatingDialog;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
@@ -159,6 +160,21 @@ public class MainActivity extends AppCompatActivity
 
         init();
         initData();
+        showRatingDialog();
+    }
+
+    private void showRatingDialog() {
+        final RatingDialog ratingDialog = new RatingDialog.Builder(this)
+//                .threshold(3)
+                .session(7)
+                .onRatingBarFormSumbit(new RatingDialog.Builder.RatingDialogFormListener() {
+                    @Override
+                    public void onFormSubmitted(String feedback) {
+
+                    }
+                }).build();
+
+        ratingDialog.show();
     }
 
     private void init() {

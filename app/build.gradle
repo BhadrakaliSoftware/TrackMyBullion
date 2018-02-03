@@ -50,7 +50,7 @@ dependencies {
     implementation "com.google.firebase:firebase-ads:$project.ext.firebaseVersion"
     implementation "com.google.firebase:firebase-core:$project.ext.firebaseVersion"
     implementation 'com.intuit.sdp:sdp-android:1.0.5'
-
+    compile 'com.codemybrainsout.rating:ratingdialog:1.0.8'
 
     compile('com.crashlytics.sdk.android:crashlytics:2.7.1@aar') {
         transitive = true;
